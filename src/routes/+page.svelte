@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
   import ActionsLineRenderer from "../components/ActionsLineRenderer.svelte";
   import ButtonsRowLineRenderer from "../components/ButtonsRowLineRenderer.svelte";
   import Canvas from "../components/Canvas.svelte";

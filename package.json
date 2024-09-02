@@ -1,5 +1,6 @@
 {
   "name": "calango-design",
+  "description": "Calango Design is an open source ASCII art editor that runs in the browser.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
