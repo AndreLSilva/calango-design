@@ -6,24 +6,32 @@ Calango Design is an open source ASCII art editor that runs in the browser.
 
 ## Roadmap
 
-- [ ] Actions
-  - [ ] Undo;
-  - [ ] Import;
-  - [ ] Save;
-- [ ] Tools:
-  - [ ] Brackground color;
+- [-] Tools:
+  - [x] Symbol;
+  - [ ] Eraser;
+  - [ ] Style;
   - [ ] Select;
     - [ ] Move;
     - [ ] Copy + Paste;
-- [ ] Shapes:
-  - [ ] Line;
+- [ ] Palette
+  - [ ] Foreground color;
+  - [ ] Background color;
+- [-] Shapes:
+  - [x] Brush;
+  - [x] Line;
   - [ ] Rectangle;
   - [ ] Circle;
   - [ ] Fill;
   - [ ] Text;
+- [-] Actions
+  - [x] Export;
+  - [x] Reset;
+  - [ ] Undo;
+  - [ ] Import;
+  - [ ] Save;
 - [ ] Settings;
   - [ ] Adjust zoom;
   - [ ] Resize canvas;
   - [ ] Color theme;
-- [ ] Bug fixes:
-  - [ ] Click to use tool;
+- [x] Bug fixes:
+  - [x] Click to use brush;

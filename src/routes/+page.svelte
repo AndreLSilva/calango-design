@@ -6,6 +6,7 @@
   import Card from "../components/Card.svelte";
   import ColorsPaletteLineRenderer from "../components/ColorsPaletteLineRenderer.svelte";
   import ToolsLineRenderer from "../components/ToolsLineRenderer.svelte";
+  import ShapesLineRenderer from "../components/ShapesLineRenderer.svelte";
 
   const characters = [
     "┌┐┍┑┎┒┏┓╒╕╓╖╔╗╭╮─┈┄━┉┅═",
@@ -43,8 +44,9 @@
     "#ffffff",
   ];
 
-  const tools = ["Brush", "Eraser", "Style"];
+  const tools = ["Symbol" /*"Eraser", "Style"*/];
   const actions = ["Export", "Reset"];
+  const shapes = ["Brush", "Line"];
 
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
     event.preventDefault();
@@ -69,17 +71,19 @@
       content={characters}
       lineRenderer={ButtonsRowLineRenderer}
     />
-    <Card
+    <!-- <Card
       title="Palette"
       width={32}
       content={colors}
       lineRenderer={ColorsPaletteLineRenderer}
       lineRendererProps={{ data: colorsData }}
-    />
+    /> -->
     <div style="display: flex;">
       <Card title="Tools" width={15} content={tools} lineRenderer={ToolsLineRenderer} />
-      <Card title="Actions" width={15} content={actions} lineRenderer={ActionsLineRenderer} />
+      <Card title="Shapes" width={15} content={shapes} lineRenderer={ShapesLineRenderer} />
     </div>
+
+    <Card title="Actions" width={15} content={actions} lineRenderer={ActionsLineRenderer} />
   </div>
 
   <Canvas width={80} height={30} />
