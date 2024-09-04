@@ -53,14 +53,14 @@
       {#if content[i]}
         <svelte:component
           this={lineRenderer}
-          content={content[i]}
+          content={content[i] + getLineWhitespace(content[i])}
           index={i}
           {...lineRendererProps}
         />
       {/if}
 
       <!-- Line's right border and whitespace -->
-      <span>{getLineWhitespace(content[i])}│</span>
+      <span>│</span>
     </pre>
   {/each}
 

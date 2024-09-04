@@ -12,9 +12,7 @@
 
   $: style = (() => {
     let result = "";
-
     if (shape === $selectedShape[0]) result += `background: white;`;
-
     return result;
   })();
 

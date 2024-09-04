@@ -4,8 +4,8 @@
   import ButtonsRowLineRenderer from "../components/ButtonsRowLineRenderer.svelte";
   import Canvas from "../components/Canvas.svelte";
   import Card from "../components/Card.svelte";
-  import ToolsLineRenderer from "../components/ToolsLineRenderer.svelte";
   import ShapesMenu from "../components/shapes-menu/ShapesMenu.svelte";
+  import ToolsMenu from "../components/tools-menu/ToolsMenu.svelte";
 
   const characters = [
     "┌┐┍┑┎┒┏┓╒╕╓╖╔╗╭╮─┈┄━┉┅═",
@@ -43,7 +43,6 @@
     "#ffffff",
   ];
 
-  const tools = ["Symbol" /*"Eraser", "Style"*/];
   const actions = ["Export", "Reset"];
 
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
@@ -77,7 +76,7 @@
       lineRendererProps={{ data: colorsData }}
     /> -->
     <div style="display: flex;">
-      <Card title="Tools" width={15} content={tools} lineRenderer={ToolsLineRenderer} />
+      <ToolsMenu />
       <ShapesMenu />
     </div>
 
