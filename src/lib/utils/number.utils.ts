@@ -8,3 +8,16 @@ export function getMinMax(a: number, b: number): [number, number] {
   if (b < a) return [b, a];
   return [a, b];
 }
+
+/**
+ * Warps a number if it is out of the specified bounds.
+ * @param val The value to possibly be warped.
+ * @param max The max limit (inclusive).
+ * @param min The min limit (inclusive).
+ * @returns The number in bounds.
+ */
+export function warp(val: number, max: number, min = 0) {
+  if (val > max) return min;
+  if (val < min) return max;
+  return val;
+}

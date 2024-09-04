@@ -2,38 +2,52 @@
 
 Calango Design is an open source ASCII art editor that runs in the browser.
 
-[Live at calango-design.vercel.app](calango-design.vercel.app)
+[Live at calango-design.vercel.app](https://calango-design.vercel.app/)
+
+Developed by André Lima e Silva
 
 ## Roadmap
+
+### v1.0
 
 - [ ] Tools:
   - [x] Symbol;
   - [ ] Eraser;
-  - [ ] Style;
-  - [ ] Select;
-    - [ ] Move;
-    - [ ] Copy + Paste;
-- [ ] Palette
+- [ ] Palette:
   - [ ] Foreground color;
   - [ ] Background color;
 - [ ] Shapes:
   - [x] Brush;
   - [x] Line;
-  - [ ] Rectangle;
+  - [x] Rectangle;
     - [x] Filled;
-    - [ ] Outline;
+    - [x] Outline;
   - [ ] Circle;
   - [ ] Fill;
   - [ ] Text;
-- [ ] Actions
+- [ ] Actions:
   - [x] Export;
   - [x] Reset;
+
+### v1.1
+
+- [ ] Tools:
+  - [ ] Style brush;
+  - [ ] Select:
+    - [ ] Move;
+    - [ ] Copy + Paste;
+- [ ] Actions:
   - [ ] Undo;
   - [ ] Import;
-  - [ ] Save;
 - [ ] Settings;
   - [ ] Adjust zoom;
   - [ ] Resize canvas;
+
+### v1.2
+
+- Actions:
+  - [ ] Save;
+  - [ ] Load;
+- [ ] Settings:
+  - [ ] Rename file;
   - [ ] Color theme;
-- [x] Bug fixes:
-  - [x] Click to use brush;

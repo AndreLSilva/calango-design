@@ -9,8 +9,8 @@
   import Card from "./Card.svelte";
   import CanvasRowLineRenderer from "./CanvasRowLineRenderer.svelte";
   import { onMount } from "svelte";
-  import { drawLine } from "$lib/shapes-functions/shape-line";
-  import { drawFilledRect } from "$lib/shapes-functions/shape-rectangle";
+  import { drawLine } from "$lib/editor/shapes/shape-line";
+  import { drawRect } from "$lib/editor/shapes/shape-rectangle";
 
   export let width: number;
   export let height: number;
@@ -41,8 +41,8 @@
     previewContent = Array(width * height).fill("");
 
     if (mouseDown) {
-      switch ($selectedShape) {
-        case "Brush":
+      switch ($selectedShape[0]) {
+        case "brush":
           content[currentPos.x + currentPos.y * width] = $selectedChar;
           // {
           //   const cell = container.children[0].children[y].children[x] as HTMLSpanElement;
@@ -62,7 +62,7 @@
           //   }
           // }
           break;
-        case "Line":
+        case "line":
           drawLine(
             startPos.x,
             startPos.y,
@@ -71,8 +71,9 @@
             (x, y) => (previewContent[x + y * width] = $selectedChar)
           );
           break;
-        case "Rectangle":
-          drawFilledRect(
+        case "rect":
+          drawRect(
+            $selectedShape[1],
             startPos.x,
             startPos.y,
             currentPos.x,
@@ -120,9 +121,9 @@
   const handleMouseUp: MouseEventHandler<HTMLDivElement> = (event) => {
     mouseDown = false;
 
-    switch ($selectedShape) {
+    switch ($selectedShape[0]) {
       // Commits the line to the content array.
-      case "Line":
+      case "line":
         drawLine(
           startPos.x,
           startPos.y,
@@ -131,8 +132,9 @@
           (x, y) => (content[x + y * width] = $selectedChar)
         );
         break;
-      case "Rectangle":
-        drawFilledRect(
+      case "rect":
+        drawRect(
+          $selectedShape[1],
           startPos.x,
           startPos.y,
           currentPos.x,

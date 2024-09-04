@@ -51,7 +51,12 @@
       <span>│</span>
 
       {#if content[i]}
-        <svelte:component this={lineRenderer} content={content[i]} row={i} {...lineRendererProps} />
+        <svelte:component
+          this={lineRenderer}
+          content={content[i]}
+          index={i}
+          {...lineRendererProps}
+        />
       {/if}
 
       <!-- Line's right border and whitespace -->

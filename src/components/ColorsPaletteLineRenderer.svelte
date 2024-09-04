@@ -2,7 +2,7 @@
   import { selectedColor } from "../lib/stores/editor-stores";
 
   export let content: string;
-  export let row: number;
+  export let index: number;
   export let data: string[];
 
   const handleSelectColor = (color: string) => {
@@ -12,9 +12,9 @@
 
 {#each content as _, i}
   <button
-    style={`background: ${data[i + content.length * row]}`}
+    style={`background: ${data[i + content.length * index]}`}
     class="char"
-    on:click={() => handleSelectColor(data[i + content.length * row])}>.</button
+    on:click={() => handleSelectColor(data[i + content.length * index])}>.</button
   >
 {/each}
 

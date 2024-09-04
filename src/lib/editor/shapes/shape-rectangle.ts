@@ -1,6 +1,24 @@
-import { getMinMax } from "../utils/number.utils";
+import { getMinMax } from "$lib/utils/number.utils";
 
-export function drawFilledRect(
+export function drawRect(
+  variant: number,
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+  callback: (x: number, y: number) => void
+) {
+  switch (variant) {
+    case 0:
+      drawFilledRect(x0, y0, x1, y1, callback);
+      break;
+    case 1:
+      drawOutlinedRect(x0, y0, x1, y1, callback);
+      break;
+  }
+}
+
+function drawFilledRect(
   x0: number,
   y0: number,
   x1: number,
@@ -17,7 +35,7 @@ export function drawFilledRect(
   }
 }
 
-export function drawOutlinedRect(
+function drawOutlinedRect(
   x0: number,
   y0: number,
   x1: number,
