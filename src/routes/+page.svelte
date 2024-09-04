@@ -46,7 +46,7 @@
 
   const tools = ["Symbol" /*"Eraser", "Style"*/];
   const actions = ["Export", "Reset"];
-  const shapes = ["Brush", "Line"];
+  const shapes = ["Brush", "Line", "Rectangle"];
 
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
     event.preventDefault();

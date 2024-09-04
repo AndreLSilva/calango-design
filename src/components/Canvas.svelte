@@ -1,15 +1,16 @@
 <script lang="ts">
   import {
     selectedChar,
-    selectedColor,
-    selectedTool,
+    // selectedColor,
+    // selectedTool,
     selectedShape,
   } from "../lib/stores/editor-stores";
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "./Card.svelte";
   import CanvasRowLineRenderer from "./CanvasRowLineRenderer.svelte";
   import { onMount } from "svelte";
-  import { drawLine } from "$lib/utils/number.utils";
+  import { drawLine } from "$lib/shapes-functions/shape-line";
+  import { drawFilledRect } from "$lib/shapes-functions/shape-rectangle";
 
   export let width: number;
   export let height: number;
@@ -70,6 +71,15 @@
             (x, y) => (previewContent[x + y * width] = $selectedChar)
           );
           break;
+        case "Rectangle":
+          drawFilledRect(
+            startPos.x,
+            startPos.y,
+            currentPos.x,
+            currentPos.y,
+            (x, y) => (previewContent[x + y * width] = $selectedChar)
+          );
+          break;
       }
     }
   })();
@@ -114,6 +124,15 @@
       // Commits the line to the content array.
       case "Line":
         drawLine(
+          startPos.x,
+          startPos.y,
+          currentPos.x,
+          currentPos.y,
+          (x, y) => (content[x + y * width] = $selectedChar)
+        );
+        break;
+      case "Rectangle":
+        drawFilledRect(
           startPos.x,
           startPos.y,
           currentPos.x,

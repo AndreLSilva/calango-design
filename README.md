@@ -6,7 +6,7 @@ Calango Design is an open source ASCII art editor that runs in the browser.
 
 ## Roadmap
 
-- [-] Tools:
+- [ ] Tools:
   - [x] Symbol;
   - [ ] Eraser;
   - [ ] Style;
@@ -16,14 +16,16 @@ Calango Design is an open source ASCII art editor that runs in the browser.
 - [ ] Palette
   - [ ] Foreground color;
   - [ ] Background color;
-- [-] Shapes:
+- [ ] Shapes:
   - [x] Brush;
   - [x] Line;
   - [ ] Rectangle;
+    - [x] Filled;
+    - [ ] Outline;
   - [ ] Circle;
   - [ ] Fill;
   - [ ] Text;
-- [-] Actions
+- [ ] Actions
   - [x] Export;
   - [x] Reset;
   - [ ] Undo;
