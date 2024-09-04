@@ -11,6 +11,8 @@
   import { onMount } from "svelte";
   import { drawLine } from "$lib/editor/shapes/shape-line";
   import { drawRect } from "$lib/editor/shapes/shape-rectangle";
+  import { drawFill } from "$lib/editor/shapes/shape-fill";
+  import { newMatrix } from "$lib/utils/number.utils";
 
   export let width: number;
   export let height: number;
@@ -18,8 +20,8 @@
   let currentPos = { x: 0, y: 0 };
   let startPos = { x: 0, y: 0 };
   let mouseDown = false;
-  let content: string[] = Array(width * height).fill("");
-  let previewContent: string[] = Array(width * height).fill("");
+  let content: string[][] = newMatrix(width, height, "");
+  let previewContent: string[][] = newMatrix(width, height, "");
 
   /** Represents the content that is currently being displayed. Being the sum of the actual content with the preview. */
   $: displayContent = (() => {
@@ -27,8 +29,7 @@
     for (let y = 0; y < height; y++) {
       let line = "";
       for (let x = 0; x < width; x++) {
-        const i = x + y * width;
-        line += previewContent[i] || content[i] || " ";
+        line += previewContent[y][x] || content[y][x] || " ";
       }
       result.push(line);
     }
@@ -38,12 +39,13 @@
   // Called every time the cursor position changes to either update the preview content or the actual one.
   $: (() => {
     // Resets preview content array
-    previewContent = Array(width * height).fill("");
+    // TODO: check if here is the best place to put this.
+    previewContent = newMatrix(width, height, "");
 
     if (mouseDown) {
       switch ($selectedShape[0]) {
         case "brush":
-          content[currentPos.x + currentPos.y * width] = $selectedChar;
+          content[currentPos.y][currentPos.x] = $selectedChar;
           // {
           //   const cell = container.children[0].children[y].children[x] as HTMLSpanElement;
 
@@ -68,7 +70,7 @@
             startPos.y,
             currentPos.x,
             currentPos.y,
-            (x, y) => (previewContent[x + y * width] = $selectedChar)
+            (x, y) => (previewContent[y][x] = $selectedChar)
           );
           break;
         case "rect":
@@ -78,7 +80,7 @@
             startPos.y,
             currentPos.x,
             currentPos.y,
-            (x, y) => (previewContent[x + y * width] = $selectedChar)
+            (x, y) => (previewContent[y][x] = $selectedChar)
           );
           break;
       }
@@ -129,7 +131,7 @@
           startPos.y,
           currentPos.x,
           currentPos.y,
-          (x, y) => (content[x + y * width] = $selectedChar)
+          (x, y) => (content[y][x] = $selectedChar)
         );
         break;
       case "rect":
@@ -139,8 +141,11 @@
           startPos.y,
           currentPos.x,
           currentPos.y,
-          (x, y) => (content[x + y * width] = $selectedChar)
+          (x, y) => (content[y][x] = $selectedChar)
         );
+        break;
+      case "fill":
+        drawFill(currentPos.x, currentPos.y, width, height, $selectedChar, content);
         break;
     }
 
@@ -149,7 +154,7 @@
 
   // Resets the canvas if event is triggered.
   onMount(() => {
-    const handleReset = () => (content = Array(width * height).fill(""));
+    const handleReset = () => (content = newMatrix(width, height, ""));
 
     window.addEventListener("canvas-reset", handleReset);
     return () => window.removeEventListener("canvas-reset", handleReset);

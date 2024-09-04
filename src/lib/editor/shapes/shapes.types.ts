@@ -1,1 +1,1 @@
-export type ShapeType = "brush" | "line" | "rect";
+export type ShapeType = "brush" | "line" | "rect" | "fill";

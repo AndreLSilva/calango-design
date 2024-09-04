@@ -23,8 +23,9 @@ Developed by André Lima e Silva
     - [x] Filled;
     - [x] Outline;
   - [ ] Circle;
-  - [ ] Fill;
+  - [x] Fill;
   - [ ] Text;
+  - [ ] Shortcuts;
 - [ ] Actions:
   - [x] Export;
   - [x] Reset;

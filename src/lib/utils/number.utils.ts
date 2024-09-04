@@ -21,3 +21,22 @@ export function warp(val: number, max: number, min = 0) {
   if (val < min) return max;
   return val;
 }
+
+/**
+ * Creates a new matrix filled with a given value.
+ * @param w The width of the matrix.
+ * @param h The height of the matrix.
+ * @param value The value to fill the matrix with.
+ * @returns A two dimensions array representing the matrix.
+ */
+export function newMatrix<T>(w: number, h: number, value: T) {
+  const matrix: T[][] = [];
+  for (let y = 0; y < h; y++) {
+    const row: T[] = [];
+    for (let x = 0; x < w; x++) {
+      row.push(value);
+    }
+    matrix.push(row);
+  }
+  return matrix;
+}
