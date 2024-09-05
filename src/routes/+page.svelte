@@ -1,20 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import ButtonsRowLineRenderer from "../components/ButtonsRowLineRenderer.svelte";
-  import Canvas from "../components/Canvas.svelte";
-  import Card from "../components/Card.svelte";
-  import ShapesMenu from "../components/shapes-menu/ShapesMenu.svelte";
-  import ToolsMenu from "../components/tools-menu/ToolsMenu.svelte";
-  import ActionsMenu from "../components/actions-menu/ActionsMenu.svelte";
-
-  const characters = [
-    "┌┐┍┑┎┒┏┓╒╕╓╖╔╗╭╮─┈┄━┉┅═",
-    "└┘┕┙┖┚┗┛╘╛╙╜╚╝╰╯│┊┆┃┋┇║",
-    "├┬┤┝┯┥┠┰┨┣┳┫╞╤╡╟╥╢╠╦╣",
-    " ┼  ┿  ╂  ╋  ╪  ╫  ╬ ",
-    " ┴  ┷  ┸  ┻  ╧  ╨  ╩ ",
-    "░▒▓█▀▄▌▐■x○●",
-  ];
+  import Canvas from "../components/editor/Canvas.svelte";
+  import ShapesMenu from "../components/editor/ShapesMenu.svelte";
+  import ToolsMenu from "../components/editor/ToolsMenu.svelte";
+  import ActionsMenu from "../components/editor/ActionsMenu.svelte";
+  import ColorsPaletteMenu from "../components/editor/ColorsPaletteMenu.svelte";
+  import SymbolsMenu from "../components/editor/SymbolsMenu.svelte";
 
   //                                           ┞  ┟
   //    ┡  ┢           ┦  ┧    ┩  ┪      ┬  ┭  ┮
@@ -22,26 +13,6 @@
   // ╀  ╁     ╃  ╄  ╅  ╆  ╇  ╈  ╉  ╊     ╌  ╍  ╎  ╏
   //
   //    ╱  ╲  ╳  ╴  ╵  ╶  ╷  ╸  ╹  ╺  ╻  ╼  ╽  ╾  ╿
-
-  const colors = ["        ", "        "];
-  const colorsData = [
-    "#000000",
-    "#800000",
-    "#008000",
-    "#808000",
-    "#000080",
-    "#800080",
-    "#008080",
-    "#c0c0c0",
-    "#808080",
-    "#ff0000",
-    "#00ff00",
-    "#ffff00",
-    "#0000ff",
-    "#ff00ff",
-    "#00ffff",
-    "#ffffff",
-  ];
 
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
     event.preventDefault();
@@ -60,19 +31,10 @@
 
 <div style="display: flex;">
   <div>
-    <Card
-      title="Characters"
-      width={32}
-      content={characters}
-      lineRenderer={ButtonsRowLineRenderer}
-    />
-    <!-- <Card
-      title="Palette"
-      width={32}
-      content={colors}
-      lineRenderer={ColorsPaletteLineRenderer}
-      lineRendererProps={{ data: colorsData }}
-    /> -->
+    <SymbolsMenu />
+
+    <ColorsPaletteMenu />
+
     <div style="display: flex;">
       <ToolsMenu />
       <ShapesMenu />

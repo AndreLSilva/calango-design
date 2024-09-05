@@ -1,15 +1,13 @@
 <script lang="ts">
   import type { MenuItems } from "$lib/editor/editor.types";
-  import Card from "./Card.svelte";
 
-  export let title: string;
-  export let width: number;
   export let items: MenuItems<string>;
   export let selectedKey: string | undefined = undefined;
   export let selectedVariant: number = 0;
-  export let lineRenderer: any;
+  export let onSelectItem: (key: string) => void;
 
-  $: content = Object.entries(items).map(([key, data]) => {
+  $: getLabel = (key: string) => {
+    const data = items[key];
     let label = data.label;
 
     if (data.shortcut) label += ` (${data.shortcut})`;
@@ -18,8 +16,33 @@
       label += ` ${data.variants[variant]}`;
     }
 
-    return ` ${label} `;
-  });
+    return label;
+  };
+
+  $: getStyle = (key: string) => {
+    let result = "";
+    if (key === selectedKey) result += `background: white;`;
+    return result;
+  };
 </script>
 
-<Card {title} {width} {content} {lineRenderer} />
+<div style="">
+  {#each Object.keys(items) as key}
+    <button style={getStyle(key)} on:click={() => onSelectItem(key)}>{getLabel(key)}</button>
+  {/each}
+</div>
+
+<style>
+  button {
+    display: block;
+
+    width: 100%;
+    text-align: left;
+
+    color: cornflowerblue;
+
+    &:hover {
+      background: white;
+    }
+  }
+</style>

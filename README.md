@@ -26,7 +26,7 @@ Developed by André Lima e Silva
   - [x] Fill;
   - [ ] Text;
   - [ ] Shortcuts;
-- [ ] Actions:
+- [x] Actions:
   - [x] Export;
   - [x] Reset;
 

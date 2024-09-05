@@ -1,17 +1,12 @@
 <script lang="ts">
   import { actions } from "$lib/editor/actions/actions";
-  import type { ActionType } from "$lib/editor/actions/actions.types";
-  import type { MenuItem } from "$lib/editor/editor.types";
   import { sanitizeCanvas } from "$lib/utils/canvas.utils";
   import { downloadFile } from "$lib/utils/misc.utils";
+  import Card from "../Card.svelte";
+  import ListMenu from "../ListMenu.svelte";
 
-  export let content: string = "";
-  export let index: number = 0;
-
-  const [shape] = Object.entries(actions)[index] as [ActionType, MenuItem];
-
-  const handleSelectTool = () => {
-    switch (shape) {
+  const handleSelectAction = (action: string) => {
+    switch (action) {
       case "export":
         {
           const content = sanitizeCanvas(document.getElementById("canvas") as HTMLDivElement);
@@ -25,14 +20,6 @@
   };
 </script>
 
-<button on:click={handleSelectTool}>{content}</button>
-
-<style>
-  button {
-    color: cornflowerblue;
-
-    &:hover {
-      background: white;
-    }
-  }
-</style>
+<Card title="Actions" width={17}>
+  <ListMenu items={actions} onSelectItem={handleSelectAction} />
+</Card>

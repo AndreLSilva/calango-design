@@ -4,10 +4,9 @@
     // selectedColor,
     // selectedTool,
     selectedShape,
-  } from "../lib/stores/editor-stores";
+  } from "../../lib/stores/editor-stores";
   import type { MouseEventHandler } from "svelte/elements";
-  import Card from "./Card.svelte";
-  import CanvasRowLineRenderer from "./CanvasRowLineRenderer.svelte";
+  import Card from "../Card.svelte";
   import { onMount } from "svelte";
   import { drawLine } from "$lib/editor/shapes/shape-line";
   import { drawRect } from "$lib/editor/shapes/shape-rectangle";
@@ -163,11 +162,13 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:mousemove={handleMouseMove} on:mousedown={handleMouseDown} on:mouseup={handleMouseUp}>
-  <Card
-    id="canvas"
-    title="Canvas"
-    {width}
-    content={displayContent}
-    lineRenderer={CanvasRowLineRenderer}
-  />
+  <Card id="canvas" title="Canvas" {width}>
+    {#each displayContent as line}
+      <div style="white-space: pre;">
+        {#each line as char}
+          <span>{char}</span>
+        {/each}
+      </div>
+    {/each}
+  </Card>
 </div>
