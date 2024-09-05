@@ -1,11 +1,14 @@
 <script>
   import { tools } from "$lib/editor/tools/tools";
-  import Card from "../Card.svelte";
+  import { selectedTool } from "$lib/stores/editor-stores";
+  import ListMenu from "../ListMenu.svelte";
   import ToolsLineRenderer from "./ToolsLineRenderer.svelte";
-
-  $: content = Object.entries(tools).map(([shape, data]) => {
-    return ` ${data.label} `;
-  });
 </script>
 
-<Card title="Tools" width={15} {content} lineRenderer={ToolsLineRenderer} />
+<ListMenu
+  title="Tools"
+  width={15}
+  items={tools}
+  selectedKey={$selectedTool}
+  lineRenderer={ToolsLineRenderer}
+/>
