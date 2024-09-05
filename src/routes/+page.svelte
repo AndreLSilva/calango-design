@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import ActionsLineRenderer from "../components/ActionsLineRenderer.svelte";
   import ButtonsRowLineRenderer from "../components/ButtonsRowLineRenderer.svelte";
   import Canvas from "../components/Canvas.svelte";
   import Card from "../components/Card.svelte";
   import ShapesMenu from "../components/shapes-menu/ShapesMenu.svelte";
   import ToolsMenu from "../components/tools-menu/ToolsMenu.svelte";
+  import ActionsMenu from "../components/actions-menu/ActionsMenu.svelte";
 
   const characters = [
     "┌┐┍┑┎┒┏┓╒╕╓╖╔╗╭╮─┈┄━┉┅═",
@@ -43,8 +43,6 @@
     "#ffffff",
   ];
 
-  const actions = ["Export", "Reset"];
-
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
     event.preventDefault();
     return "";
@@ -80,7 +78,7 @@
       <ShapesMenu />
     </div>
 
-    <Card title="Actions" width={15} content={actions} lineRenderer={ActionsLineRenderer} />
+    <ActionsMenu />
   </div>
 
   <Canvas width={80} height={30} />

@@ -4,7 +4,7 @@
   import ToolsLineRenderer from "./ToolsLineRenderer.svelte";
 
   $: content = Object.entries(tools).map(([shape, data]) => {
-    return data.label;
+    return ` ${data.label} `;
   });
 </script>
 
