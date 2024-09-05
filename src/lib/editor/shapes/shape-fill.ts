@@ -9,6 +9,7 @@ export function drawFill(
   const queue: number[] = [];
   const target = content[y0][x0];
 
+  if (target === char) return; // Exits if target is already the desired character.
   queue.unshift(x0, y0);
 
   while (queue.length) {
