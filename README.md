@@ -8,7 +8,7 @@ Developed by André Lima e Silva
 
 ## Roadmap
 
-### v1.0
+### v0.1
 
 - [ ] Tools:
   - [x] Symbol;
@@ -22,13 +22,24 @@ Developed by André Lima e Silva
   - [x] Rectangle;
     - [x] Filled;
     - [x] Outline;
-  - [ ] Circle;
   - [x] Fill;
   - [ ] Text;
-  - [ ] Shortcuts;
 - [x] Actions:
   - [x] Export;
   - [x] Reset;
+
+### v1.0
+
+- Actions:
+  - [ ] Save;
+  - [ ] Load;
+- [ ] Actions:
+  - [ ] Undo;
+  - [ ] Import;
+- [ ] Settings;
+  - [ ] Adjust zoom;
+  - [ ] Resize canvas;
+  - [ ] Rename file;
 
 ### v1.1
 
@@ -37,18 +48,8 @@ Developed by André Lima e Silva
   - [ ] Select:
     - [ ] Move;
     - [ ] Copy + Paste;
-- [ ] Actions:
-  - [ ] Undo;
-  - [ ] Import;
-- [ ] Settings;
-  - [ ] Adjust zoom;
-  - [ ] Resize canvas;
-
-### v1.2
-
-- Actions:
-  - [ ] Save;
-  - [ ] Load;
+- [ ] Shapes:
+  - [ ] Circle;
+  - [ ] Shortcuts;
 - [ ] Settings:
-  - [ ] Rename file;
   - [ ] Color theme;
