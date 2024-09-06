@@ -4,7 +4,7 @@
   import ShapesMenu from "../components/editor/ShapesMenu.svelte";
   import ToolsMenu from "../components/editor/ToolsMenu.svelte";
   import ActionsMenu from "../components/editor/ActionsMenu.svelte";
-  import ColorsPaletteMenu from "../components/editor/ColorsPaletteMenu.svelte";
+  import ColorsPaletteMenu from "../components/editor/ColorPalette/ColorsPaletteMenu.svelte";
   import SymbolsMenu from "../components/editor/SymbolsMenu.svelte";
 
   //                                           ┞  ┟
@@ -32,14 +32,11 @@
 <div style="display: flex;">
   <div>
     <SymbolsMenu />
-
     <ColorsPaletteMenu />
-
     <div style="display: flex;">
       <ToolsMenu />
       <ShapesMenu />
     </div>
-
     <ActionsMenu />
   </div>
 

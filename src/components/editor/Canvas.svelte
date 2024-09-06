@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    selectedChar,
-    // selectedColor,
-    // selectedTool,
-    selectedShape,
-  } from "../../lib/stores/editor-stores";
+  import { selectedChar, selectedColor, selectedShape } from "../../lib/stores/editor-stores";
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "../Card.svelte";
   import { onMount } from "svelte";
@@ -12,6 +7,7 @@
   import { drawRect } from "$lib/editor/shapes/shape-rectangle";
   import { drawFill } from "$lib/editor/shapes/shape-fill";
   import { newMatrix } from "$lib/utils/number.utils";
+  import type { CanvasCell } from "$lib/editor/editor.types";
 
   export let width: number;
   export let height: number;
@@ -19,72 +15,56 @@
   let currentPos = { x: 0, y: 0 };
   let startPos = { x: 0, y: 0 };
   let mouseDown = false;
-  let content: string[][] = newMatrix(width, height, "");
-  let previewContent: string[][] = newMatrix(width, height, "");
-
-  /** Represents the content that is currently being displayed. Being the sum of the actual content with the preview. */
-  $: displayContent = (() => {
-    const result: string[] = [];
-    for (let y = 0; y < height; y++) {
-      let line = "";
-      for (let x = 0; x < width; x++) {
-        line += previewContent[y][x] || content[y][x] || " ";
-      }
-      result.push(line);
-    }
-    return result;
-  })();
+  let content: CanvasCell[][] = newMatrix(width, height, [" ", "", ""]);
+  let previewContent: CanvasCell[][] = newMatrix(width, height, ["", "", ""]);
 
   // Called every time the cursor position changes to either update the preview content or the actual one.
   $: (() => {
     // Resets preview content array
     // TODO: check if here is the best place to put this.
-    previewContent = newMatrix(width, height, "");
+    previewContent = newMatrix(width, height, ["", "", ""]);
 
     if (mouseDown) {
       switch ($selectedShape[0]) {
         case "brush":
-          content[currentPos.y][currentPos.x] = $selectedChar;
-          // {
-          //   const cell = container.children[0].children[y].children[x] as HTMLSpanElement;
-
-          //   switch ($selectedTool) {
-          //     case "Symbol":
-          //       cell.textContent = $selectedChar;
-          //       cell.style.color = $selectedColor;
-          //       break;
-          //     case "Eraser":
-          //       cell.textContent = " ";
-          //       cell.style.color = "";
-          //       break;
-          //     case "Style":
-          //       cell.style.color = $selectedColor;
-          //       break;
-          //   }
-          // }
+          updateCanvasMatrix(currentPos.x, currentPos.y, false);
           break;
         case "line":
-          drawLine(
-            startPos.x,
-            startPos.y,
-            currentPos.x,
-            currentPos.y,
-            (x, y) => (previewContent[y][x] = $selectedChar)
+          drawLine(startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
+            updateCanvasMatrix(x, y, true)
           );
           break;
         case "rect":
-          drawRect(
-            $selectedShape[1],
-            startPos.x,
-            startPos.y,
-            currentPos.x,
-            currentPos.y,
-            (x, y) => (previewContent[y][x] = $selectedChar)
+          drawRect($selectedShape[1], startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
+            updateCanvasMatrix(x, y, true)
           );
           break;
       }
     }
   })();
+
+  $: updateCanvasMatrix = (x: number, y: number, preview: boolean) => {
+    if (preview) previewContent[y][x] = [$selectedChar, ...$selectedColor];
+    else content[y][x] = [$selectedChar, ...$selectedColor];
+
+    // {
+    //   const cell = container.children[0].children[y].children[x] as HTMLSpanElement;
+
+    //   switch ($selectedTool) {
+    //     case "Symbol":
+    //       cell.textContent = $selectedChar;
+    //       cell.style.color = $selectedColor;
+    //       break;
+    //     case "Eraser":
+    //       cell.textContent = " ";
+    //       cell.style.color = "";
+    //       break;
+    //     case "Style":
+    //       cell.style.color = $selectedColor;
+    //       break;
+    //   }
+    // }
+  };
 
   /**
    * Converts the event position from screen based to canvas based.
@@ -125,26 +105,27 @@
     switch ($selectedShape[0]) {
       // Commits the line to the content array.
       case "line":
-        drawLine(
-          startPos.x,
-          startPos.y,
-          currentPos.x,
-          currentPos.y,
-          (x, y) => (content[y][x] = $selectedChar)
+        drawLine(startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
+          updateCanvasMatrix(x, y, false)
         );
         break;
       case "rect":
-        drawRect(
-          $selectedShape[1],
-          startPos.x,
-          startPos.y,
-          currentPos.x,
-          currentPos.y,
-          (x, y) => (content[y][x] = $selectedChar)
+        drawRect($selectedShape[1], startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
+          updateCanvasMatrix(x, y, false)
         );
         break;
       case "fill":
-        drawFill(currentPos.x, currentPos.y, width, height, $selectedChar, content);
+        drawFill(
+          currentPos.x,
+          currentPos.y,
+          width,
+          height,
+          $selectedChar,
+          $selectedColor[0],
+          $selectedColor[1],
+          content,
+          (x, y) => updateCanvasMatrix(x, y, false)
+        );
         break;
     }
 
@@ -153,7 +134,7 @@
 
   // Resets the canvas if event is triggered.
   onMount(() => {
-    const handleReset = () => (content = newMatrix(width, height, ""));
+    const handleReset = () => (content = newMatrix(width, height, [" ", "", ""]));
 
     window.addEventListener("canvas-reset", handleReset);
     return () => window.removeEventListener("canvas-reset", handleReset);
@@ -163,10 +144,18 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:mousemove={handleMouseMove} on:mousedown={handleMouseDown} on:mouseup={handleMouseUp}>
   <Card id="canvas" title="Canvas" {width}>
-    {#each displayContent as line}
+    {#each { length: height } as _, y}
       <div style="white-space: pre;">
-        {#each line as char}
-          <span>{char}</span>
+        {#each { length: width } as _, x}
+          {#if previewContent[y][x][0]}
+            <span style:color={previewContent[y][x][1]} style:background={previewContent[y][x][2]}>
+              {previewContent[y][x][0]}
+            </span>
+          {:else}
+            <span style:color={content[y][x][1]} style:background={content[y][x][2]}>
+              {content[y][x][0]}
+            </span>
+          {/if}
         {/each}
       </div>
     {/each}

@@ -13,9 +13,9 @@ Developed by André Lima e Silva
 - [ ] Tools:
   - [x] Symbol;
   - [ ] Eraser;
-- [ ] Palette:
-  - [ ] Foreground color;
-  - [ ] Background color;
+- [x] Palette:
+  - [x] Foreground color;
+  - [x] Background color;
 - [ ] Shapes:
   - [x] Brush;
   - [x] Line;

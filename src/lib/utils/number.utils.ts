@@ -23,6 +23,29 @@ export function warp(val: number, max: number, min = 0) {
 }
 
 /**
+ * Calculates a hex color's luma.
+ * @param hex The color.
+ * @returns The color's luma.
+ */
+export function getLuma(hex: string) {
+  const sanitized = hex.replace("#", "");
+  const r = parseInt(sanitized.substring(0, 2), 16);
+  const g = parseInt(sanitized.substring(2, 4), 16);
+  const b = parseInt(sanitized.substring(4, 6), 16);
+
+  return (r * 299 + g * 587 + b * 114) / 1000;
+}
+
+/**
+ * Determines if a color is considered light or not.
+ * @param hex The color.
+ * @returns True if the color is considered to be light.
+ */
+export function isLightColor(hex: string) {
+  return getLuma(hex) > 155;
+}
+
+/**
  * Creates a new matrix filled with a given value.
  * @param w The width of the matrix.
  * @param h The height of the matrix.

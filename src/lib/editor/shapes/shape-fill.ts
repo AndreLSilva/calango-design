@@ -1,24 +1,30 @@
+import type { CanvasCell } from "../editor.types";
+
 export function drawFill(
   x0: number,
   y0: number,
   w: number,
   h: number,
   char: string,
-  content: string[][]
+  foreground: string,
+  background: string,
+  content: CanvasCell[][],
+  callback: (x: number, y: number) => void
 ) {
   const queue: number[] = [];
-  const target = content[y0][x0];
+  const toReplace = content[y0][x0].join("");
 
-  if (target === char) return; // Exits if target is already the desired character.
+  // Exits if target is already the desired character.
+  if (toReplace === `${char}${foreground}${background}`) return;
+
   queue.unshift(x0, y0);
-
   while (queue.length) {
     const y = queue.pop()!;
     const x = queue.pop()!;
 
-    if (x < 0 || x >= w || y < 0 || y >= h || content[y][x] !== target) continue;
+    if (x < 0 || x >= w || y < 0 || y >= h || content[y][x].join("") !== toReplace) continue;
 
-    content[y][x] = char;
+    callback(x, y);
     queue.unshift(x - 1, y);
     queue.unshift(x + 1, y);
     queue.unshift(x, y - 1);

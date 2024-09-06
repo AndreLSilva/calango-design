@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { MenuItems } from "$lib/editor/editor.types";
+  import type { MenuItems } from "./ListMenu.types";
 
   export let items: MenuItems<string>;
   export let selectedKey: string | undefined = undefined;

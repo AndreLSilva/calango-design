@@ -1,7 +1,7 @@
 <script lang="ts">
   import { selectedShape } from "$lib/stores/editor-stores";
   import { shapes } from "$lib/editor/shapes/shapes";
-  import ListMenu from "../ListMenu.svelte";
+  import ListMenu from "../list-menu/ListMenu.svelte";
   import Card from "../Card.svelte";
   import type { ShapeType } from "$lib/editor/shapes/shapes.types";
   import { warp } from "$lib/utils/number.utils";

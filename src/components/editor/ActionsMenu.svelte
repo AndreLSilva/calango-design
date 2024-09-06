@@ -3,7 +3,7 @@
   import { sanitizeCanvas } from "$lib/utils/canvas.utils";
   import { downloadFile } from "$lib/utils/misc.utils";
   import Card from "../Card.svelte";
-  import ListMenu from "../ListMenu.svelte";
+  import ListMenu from "../list-menu/ListMenu.svelte";
 
   const handleSelectAction = (action: string) => {
     switch (action) {
