@@ -1,1 +1,1 @@
-export type ToolType = "symbols" | "eraser";
+export type ToolType = "symbols" | "eraser" | "style";

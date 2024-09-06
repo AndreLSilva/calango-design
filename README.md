@@ -10,9 +10,10 @@ Developed by André Lima e Silva
 
 ### v0.1
 
-- [ ] Tools:
+- [x] Tools:
   - [x] Symbol;
-  - [ ] Eraser;
+  - [x] Eraser;
+  - [x] Styles;
 - [x] Palette:
   - [x] Foreground color;
   - [x] Background color;
@@ -44,7 +45,6 @@ Developed by André Lima e Silva
 ### v1.1
 
 - [ ] Tools:
-  - [ ] Style brush;
   - [ ] Select:
     - [ ] Move;
     - [ ] Copy + Paste;

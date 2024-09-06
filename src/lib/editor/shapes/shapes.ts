@@ -1,4 +1,4 @@
-import type { MenuItems } from "../editor.types";
+import type { MenuItems } from "../../../components/list-menu/ListMenu.types";
 import type { ShapeType } from "./shapes.types";
 
 export const shapes: MenuItems<ShapeType> = {

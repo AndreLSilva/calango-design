@@ -1,4 +1,4 @@
-import type { MenuItems } from "../editor.types";
+import type { MenuItems } from "../../../components/list-menu/ListMenu.types";
 import type { ActionType } from "./actions.types";
 
 export const actions: MenuItems<ActionType> = {

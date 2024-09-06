@@ -19,21 +19,21 @@
   })();
 
   const getCardHeader = () => {
-    let result = title ? `╭─┤ ${title} ├` : "╭";
+    let result = title ? `┌─┤ ${title} ├` : "┌";
     for (let i = 0, n = width - result.length + 1; i < n; i++) {
       result += "─";
     }
-    result += "╮";
+    result += "┐";
 
     return result;
   };
 
   const getCardFooter = () => {
-    let result = footer ? `┤ ${footer} ├─╯` : "╯";
+    let result = footer ? `┤ ${footer} ├─┘` : "┘";
     for (let i = 0, n = width - result.length + 1; i < n; i++) {
       result = "─" + result;
     }
-    result = "╰" + result;
+    result = "└" + result;
 
     return result;
   };

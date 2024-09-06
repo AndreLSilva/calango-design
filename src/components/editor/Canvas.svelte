@@ -58,6 +58,10 @@
         if (preview) previewContent[y][x] = [" ", "", ""];
         else content[y][x] = [" ", "", ""];
         break;
+      case "style":
+        if (preview) previewContent[y][x] = [content[y][x][0], ...$selectedColor];
+        else content[y][x] = [content[y][x][0], ...$selectedColor];
+        break;
     }
   };
 
@@ -111,16 +115,17 @@
         break;
       case "fill":
         {
-          let target: CanvasCell = ["", "", ""];
+          let target: CanvasCell;
           if ($selectedTool === "symbols") target = [$selectedChar, ...$selectedColor];
           else if ($selectedTool === "eraser") target = [" ", "", ""];
-          // else target = [" ", ...$selectedColor];
+          else if ($selectedTool === "style")
+            target = [content[currentPos.y][currentPos.y][0], ...$selectedColor];
+          else throw new Error(`Unknown tool "${$selectedTool}"`);
 
           drawFill(currentPos.x, currentPos.y, width, height, target, content, (x, y) =>
             updateCanvasMatrix(x, y, false)
           );
         }
-
         break;
     }
 

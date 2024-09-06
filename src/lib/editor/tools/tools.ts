@@ -1,4 +1,4 @@
-import type { MenuItems } from "../editor.types";
+import type { MenuItems } from "../../../components/list-menu/ListMenu.types";
 import type { ToolType } from "./tools.types";
 
 export const tools: MenuItems<ToolType> = {
@@ -9,5 +9,9 @@ export const tools: MenuItems<ToolType> = {
   eraser: {
     label: "Eraser",
     // shortcut: "e",
+  },
+  style: {
+    label: "Styles",
+    // shortcut: "",
   },
 };
