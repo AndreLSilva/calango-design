@@ -29,23 +29,30 @@
   <title>Calango Design</title>
 </svelte:head>
 
-<div style="display: flex;">
-  <div>
-    <SymbolsMenu />
-    <ColorsPaletteMenu />
-    <div style="display: flex;">
-      <ToolsMenu />
-      <ShapesMenu />
-    </div>
-    <ActionsMenu />
+<div style:margin="1ch">
+  <!-- Title -->
+  <div style:padding-bottom="1ch">
+    <h1 class="title">Calango Design<span class="version-label">{" "}v0.1.0</span></h1>
+    <p class="version-label">
+      └─ By André Lima e Silva ─ <a href="https://github.com/AndreLSilva/calango-design/">Github</a>
+    </p>
   </div>
 
-  <Canvas width={80} height={30} />
-</div>
+  <!-- Content -->
+  <div style="display: flex;">
+    <div>
+      <SymbolsMenu />
+      <ColorsPaletteMenu />
+      <div style="display: flex;">
+        <ToolsMenu />
+        <ShapesMenu />
+      </div>
+      <ActionsMenu />
+    </div>
 
-<!-- Version label -->
-<pre class="version-label">╭Calango Design v0.1.0</pre>
-<pre class="version-label">╰By André Lima e Silva </pre>
+    <Canvas width={80} height={30} />
+  </div>
+</div>
 
 <style>
   :global(html) {
@@ -78,13 +85,28 @@
     background: none;
   }
 
+  :global(a) {
+    color: inherit;
+  }
+
+  :global(p) {
+    margin: 0;
+  }
+
   :global(.white-space) {
     color: transparent;
     user-select: none;
   }
 
+  .title {
+    margin: 0;
+    opacity: 0.6;
+  }
+
   .version-label {
-    opacity: 0.38;
     font-size: 0.75rem;
+    white-space: pre;
+
+    opacity: 0.38;
   }
 </style>
