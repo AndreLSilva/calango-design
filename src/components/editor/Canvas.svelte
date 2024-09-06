@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { selectedChar, selectedColor, selectedShape } from "../../lib/stores/editor-stores";
+  import {
+    selectedChar,
+    selectedColor,
+    selectedShape,
+    selectedTool,
+  } from "../../lib/stores/editor-stores";
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "../Card.svelte";
   import { onMount } from "svelte";
@@ -44,26 +49,16 @@
   })();
 
   $: updateCanvasMatrix = (x: number, y: number, preview: boolean) => {
-    if (preview) previewContent[y][x] = [$selectedChar, ...$selectedColor];
-    else content[y][x] = [$selectedChar, ...$selectedColor];
-
-    // {
-    //   const cell = container.children[0].children[y].children[x] as HTMLSpanElement;
-
-    //   switch ($selectedTool) {
-    //     case "Symbol":
-    //       cell.textContent = $selectedChar;
-    //       cell.style.color = $selectedColor;
-    //       break;
-    //     case "Eraser":
-    //       cell.textContent = " ";
-    //       cell.style.color = "";
-    //       break;
-    //     case "Style":
-    //       cell.style.color = $selectedColor;
-    //       break;
-    //   }
-    // }
+    switch ($selectedTool) {
+      case "symbols":
+        if (preview) previewContent[y][x] = [$selectedChar, ...$selectedColor];
+        else content[y][x] = [$selectedChar, ...$selectedColor];
+        break;
+      case "eraser":
+        if (preview) previewContent[y][x] = [" ", "", ""];
+        else content[y][x] = [" ", "", ""];
+        break;
+    }
   };
 
   /**
@@ -115,17 +110,17 @@
         );
         break;
       case "fill":
-        drawFill(
-          currentPos.x,
-          currentPos.y,
-          width,
-          height,
-          $selectedChar,
-          $selectedColor[0],
-          $selectedColor[1],
-          content,
-          (x, y) => updateCanvasMatrix(x, y, false)
-        );
+        {
+          let target: CanvasCell = ["", "", ""];
+          if ($selectedTool === "symbols") target = [$selectedChar, ...$selectedColor];
+          else if ($selectedTool === "eraser") target = [" ", "", ""];
+          // else target = [" ", ...$selectedColor];
+
+          drawFill(currentPos.x, currentPos.y, width, height, target, content, (x, y) =>
+            updateCanvasMatrix(x, y, false)
+          );
+        }
+
         break;
     }
 

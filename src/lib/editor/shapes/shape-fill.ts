@@ -5,9 +5,7 @@ export function drawFill(
   y0: number,
   w: number,
   h: number,
-  char: string,
-  foreground: string,
-  background: string,
+  target: [string, string, string],
   content: CanvasCell[][],
   callback: (x: number, y: number) => void
 ) {
@@ -15,7 +13,7 @@ export function drawFill(
   const toReplace = content[y0][x0].join("");
 
   // Exits if target is already the desired character.
-  if (toReplace === `${char}${foreground}${background}`) return;
+  if (toReplace === target.join("")) return;
 
   queue.unshift(x0, y0);
   while (queue.length) {
