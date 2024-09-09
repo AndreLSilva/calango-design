@@ -63,3 +63,15 @@ export function newMatrix<T>(w: number, h: number, value: T) {
   }
   return matrix;
 }
+
+/**
+ * Converts the event position from screen based to canvas based.
+ * @param event The mouse event containing the position.
+ */
+export function eventPosToLocal(event: MouseEvent, w: number, h: number) {
+  const containerRect = (event.currentTarget as HTMLDivElement).getBoundingClientRect();
+  const x = Math.floor(((event.x - containerRect.x) * w) / containerRect.width);
+  const y = Math.floor(((event.y - containerRect.y) * h) / containerRect.height);
+
+  return [x, y];
+}

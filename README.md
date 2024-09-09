@@ -17,14 +17,14 @@ Developed by André Lima e Silva
 - [x] Palette:
   - [x] Foreground color;
   - [x] Background color;
-- [ ] Shapes:
+- [x] Shapes:
   - [x] Brush;
   - [x] Line;
   - [x] Rectangle;
     - [x] Filled;
     - [x] Outline;
   - [x] Fill;
-  - [ ] Text;
+  - [x] Text;
 - [x] Actions:
   - [x] Export;
   - [x] Reset;

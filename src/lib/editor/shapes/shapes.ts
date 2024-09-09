@@ -19,4 +19,8 @@ export const shapes: MenuItems<ShapeType> = {
     label: "Fill",
     // shortcut: "g",
   },
+  text: {
+    label: "Text",
+    // shortcut: "t"
+  },
 };
