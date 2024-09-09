@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import Canvas from "../components/editor/Canvas.svelte";
   import ShapesMenu from "../components/editor/ShapesMenu.svelte";
-  import ToolsMenu from "../components/editor/ToolsMenu.svelte";
+  import DrawModeMenu from "../components/editor/DrawModeMenu.svelte";
   import ActionsMenu from "../components/editor/ActionsMenu.svelte";
   import ColorsPaletteMenu from "../components/editor/ColorPalette/ColorsPaletteMenu.svelte";
   import SymbolsMenu from "../components/editor/SymbolsMenu.svelte";
@@ -39,15 +39,17 @@
   </div>
 
   <!-- Content -->
-  <div style="display: flex;">
+  <div style:display="flex">
     <div>
       <SymbolsMenu />
       <ColorsPaletteMenu />
-      <div style="display: flex;">
-        <ToolsMenu />
+      <div style:display="flex">
+        <div>
+          <DrawModeMenu />
+          <ActionsMenu />
+        </div>
         <ShapesMenu />
       </div>
-      <ActionsMenu />
     </div>
 
     <Canvas width={80} height={30} />

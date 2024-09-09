@@ -10,10 +10,10 @@ Developed by André Lima e Silva
 
 ### v0.1
 
-- [x] Tools:
+- [x] Draw mode:
   - [x] Symbol;
-  - [x] Eraser;
   - [x] Styles;
+  - [x] Both;
 - [x] Palette:
   - [x] Foreground color;
   - [x] Background color;

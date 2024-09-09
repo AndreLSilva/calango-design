@@ -17,8 +17,13 @@
   })();
 
   const selectColor = (foreground: boolean) => {
-    if (foreground) selectedColor.update((current) => [color, current[1]]);
-    else selectedColor.update((current) => [current[0], color]);
+    if (foreground) {
+      if ($selectedColor[0] === color) selectedColor.update((current) => ["", current[1]]);
+      else selectedColor.update((current) => [color, current[1]]);
+    } else {
+      if ($selectedColor[1] === color) selectedColor.update((current) => [current[0], ""]);
+      else selectedColor.update((current) => [current[0], color]);
+    }
   };
 </script>
 
@@ -28,7 +33,9 @@
   on:click={() => selectColor(true)}
   on:contextmenu={() => selectColor(false)}
 >
-  {#if isFore}
+  {#if isFore && isBack}
+    a
+  {:else if isFore}
     f
   {:else if isBack}
     b

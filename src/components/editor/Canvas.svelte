@@ -3,7 +3,7 @@
     selectedChar,
     selectedColor,
     selectedShape,
-    selectedTool,
+    selectedDrawMode,
   } from "../../lib/stores/editor-stores";
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "../Card.svelte";
@@ -37,6 +37,9 @@
         case "brush":
           updateCanvasMatrix(currentPos.x, currentPos.y, false);
           break;
+        case "eraser":
+          eraseCanvasMatrix(currentPos.x, currentPos.y);
+          break;
         case "line":
           drawLine(startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
             updateCanvasMatrix(x, y, true)
@@ -52,18 +55,37 @@
   })();
 
   $: updateCanvasMatrix = (x: number, y: number, preview: boolean, char?: string) => {
-    switch ($selectedTool) {
+    switch ($selectedDrawMode) {
       case "symbols":
-        if (preview) previewContent[y][x] = [char ?? $selectedChar, ...$selectedColor];
-        else content[y][x] = [char ?? $selectedChar, ...$selectedColor];
-        break;
-      case "eraser":
-        if (preview) previewContent[y][x] = [" ", "", ""];
-        else content[y][x] = [" ", "", ""];
+        if (preview)
+          previewContent[y][x] = [
+            char ?? $selectedChar,
+            previewContent[y][x][1],
+            previewContent[y][x][2],
+          ];
+        else content[y][x] = [char ?? $selectedChar, content[y][x][1], content[y][x][2]];
         break;
       case "style":
         if (preview) previewContent[y][x] = [content[y][x][0], ...$selectedColor];
         else content[y][x] = [content[y][x][0], ...$selectedColor];
+        break;
+      case "both":
+        if (preview) previewContent[y][x] = [char ?? $selectedChar, ...$selectedColor];
+        else content[y][x] = [char ?? $selectedChar, ...$selectedColor];
+        break;
+    }
+  };
+
+  $: eraseCanvasMatrix = (x: number, y: number) => {
+    switch ($selectedDrawMode) {
+      case "symbols":
+        content[y][x] = [" ", content[y][x][1], content[y][x][2]];
+        break;
+      case "style":
+        content[y][x] = [content[y][x][0], "", ""];
+        break;
+      case "both":
+        content[y][x] = [" ", "", ""];
         break;
     }
   };
@@ -102,11 +124,12 @@
       case "fill":
         {
           let target: CanvasCell;
-          if ($selectedTool === "symbols") target = [$selectedChar, ...$selectedColor];
-          else if ($selectedTool === "eraser") target = [" ", "", ""];
-          else if ($selectedTool === "style")
+          if ($selectedDrawMode === "symbols") target = [$selectedChar, ...$selectedColor];
+          else if ($selectedDrawMode === "style")
             target = [content[currentPos.y][currentPos.y][0], ...$selectedColor];
-          else throw new Error(`Unknown tool "${$selectedTool}"`);
+          else if ($selectedDrawMode === "both")
+            target = [content[currentPos.y][currentPos.y][0], ...$selectedColor];
+          else throw new Error(`Unknown draw mode "${$selectedDrawMode}"`);
 
           drawFill(currentPos.x, currentPos.y, width, height, target, content, (x, y) =>
             updateCanvasMatrix(x, y, false)

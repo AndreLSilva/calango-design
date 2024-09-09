@@ -6,6 +6,10 @@ export const shapes: MenuItems<ShapeType> = {
     label: "Brush",
     // shortcut: "b",
   },
+  eraser: {
+    label: "Eraser",
+    // shortcut: "e",
+  },
   line: {
     label: "Line",
     // shortcut: "l",
