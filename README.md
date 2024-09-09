@@ -28,18 +28,20 @@ Developed by André Lima e Silva
 - [x] Actions:
   - [x] Export;
   - [x] Reset;
+- Settings:
+  - [ ] Settings;
+  - [ ] Adjust zoom;
+  - [ ] Resize canvas;
 
 ### v1.0
 
 - Actions:
+  - [ ] Import;
+  - [ ] Undo;
+  - [ ] Export/Import with styles;
   - [ ] Save;
   - [ ] Load;
-- [ ] Actions:
-  - [ ] Undo;
-  - [ ] Import;
 - [ ] Settings;
-  - [ ] Adjust zoom;
-  - [ ] Resize canvas;
   - [ ] Rename file;
 
 ### v1.1
