@@ -8,12 +8,12 @@
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "../Card.svelte";
   import { onMount } from "svelte";
-  import { drawRect } from "$lib/editor/shapes/shape-rectangle";
   import { drawFill } from "$lib/editor/shapes/shape-fill";
   import { eventPosToLocal, newMatrix } from "$lib/utils/number.utils";
   import type { CanvasCell } from "$lib/editor/editor.types";
   import ShapeText from "$lib/editor/shapes/shape-text.svelte";
   import ShapeLine from "$lib/editor/shapes/fill/shape-line.svelte";
+  import ShapeRectangle from "$lib/editor/shapes/rectangle/shape-rectangle.svelte";
 
   export let width: number;
   export let height: number;
@@ -28,11 +28,6 @@
   // Called every time the cursor position changes to either update the preview content or the actual one.
   $: (() => {
     if (mouseDown) {
-      // Resets preview content array
-      // previewContent = newMatrix(width, height, ["", "", ""]);
-    }
-
-    if (mouseDown) {
       switch ($selectedShape[0]) {
         case "brush":
           updateContent(currentPos.x, currentPos.y);
@@ -40,21 +35,11 @@
         case "eraser":
           eraseCanvasMatrix(currentPos.x, currentPos.y);
           break;
-        case "rect":
-          drawRect(
-            $selectedShape[1],
-            startPos.x,
-            startPos.y,
-            currentPos.x,
-            currentPos.y,
-            updatePreview
-          );
-          break;
       }
     }
   })();
 
-  $: updatePreview = (x: number, y: number, char?: string) => {
+  const updatePreview = (x: number, y: number, char?: string) => {
     switch ($selectedDrawMode) {
       case "symbols":
         previewContent[y][x] = [
@@ -72,7 +57,7 @@
     }
   };
 
-  $: updateContent = (x: number, y: number, char: string = $selectedChar) => {
+  const updateContent = (x: number, y: number, char: string = $selectedChar) => {
     switch ($selectedDrawMode) {
       case "symbols":
         content[y][x] = [char, content[y][x][1], content[y][x][2]];
@@ -86,7 +71,7 @@
     }
   };
 
-  $: eraseCanvasMatrix = (x: number, y: number) => {
+  const eraseCanvasMatrix = (x: number, y: number) => {
     switch ($selectedDrawMode) {
       case "symbols":
         content[y][x] = [" ", content[y][x][1], content[y][x][2]];
@@ -120,16 +105,6 @@
     mouseDown = false;
 
     switch ($selectedShape[0]) {
-      case "rect":
-        drawRect(
-          $selectedShape[1],
-          startPos.x,
-          startPos.y,
-          currentPos.x,
-          currentPos.y,
-          updateContent
-        );
-        break;
       case "fill":
         {
           let target: CanvasCell;
@@ -170,12 +145,26 @@
   canvasH={height}
   x0={startPos.x}
   y0={startPos.y}
+  x={currentPos.x}
+  y={currentPos.y}
   {mouseDown}
   {updatePreview}
   {clearPreview}
   {updateContent}
 />
-
+<ShapeRectangle
+  {canvasEl}
+  canvasW={width}
+  canvasH={height}
+  x0={startPos.x}
+  y0={startPos.y}
+  x={currentPos.x}
+  y={currentPos.y}
+  {mouseDown}
+  {updatePreview}
+  {clearPreview}
+  {updateContent}
+/>
 <ShapeText
   {canvasEl}
   canvasW={width}

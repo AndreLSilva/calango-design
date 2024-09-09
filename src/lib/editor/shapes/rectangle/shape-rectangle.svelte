@@ -2,7 +2,7 @@
   import { selectedShape } from "$lib/stores/editor-stores";
   import { eventPosToLocal } from "$lib/utils/number.utils";
   import { onDestroy } from "svelte";
-  import { drawLine } from "./shape-line";
+  import { drawRect } from "./shape-rectangle";
 
   export let canvasEl: HTMLDivElement;
   export let canvasW: number;
@@ -18,24 +18,25 @@
 
   $: (() => {
     if (!canvasEl) return;
-    if ($selectedShape[0] === "line") {
+    if ($selectedShape[0] === "rect") {
       canvasEl.addEventListener("mouseup", handleMouseUp);
     } else {
       canvasEl.removeEventListener("mouseup", handleMouseUp);
     }
   })();
 
-  // Updates the line preview
+  // Updates the rectangle preview
   $: (() => {
-    if (!($selectedShape[0] === "line" && mouseDown)) return;
+    if (!($selectedShape[0] === "rect" && mouseDown)) return;
+
     clearPreview();
-    drawLine(x0, y0, x, y, updatePreview);
+    drawRect($selectedShape[1], x0, y0, x, y, updatePreview);
   })();
 
-  /** Writes the line rectangle on the canvas.  */
+  /** Writes the drawn rectangle on the canvas. */
   const handleMouseUp = (event: MouseEvent) => {
     const [x, y] = eventPosToLocal(event, canvasW, canvasH);
-    drawLine(x0, y0, x, y, updateContent);
+    drawRect($selectedShape[1], x0, y0, x, y, updateContent);
   };
 
   onDestroy(() => {
