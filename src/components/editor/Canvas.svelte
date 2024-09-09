@@ -15,44 +15,42 @@
   import ShapeLine from "$lib/editor/shapes/fill/shape-line.svelte";
   import ShapeRectangle from "$lib/editor/shapes/rectangle/shape-rectangle.svelte";
 
-  export let width: number;
-  export let height: number;
+  export let canvasW: number;
+  export let canvasH: number;
 
   let canvasEl: HTMLDivElement;
-  let currentPos = { x: 0, y: 0 };
-  let startPos = { x: 0, y: 0 };
+  let x0: number = 0;
+  let y0: number = 0;
+  let x: number = 0;
+  let y: number = 0;
   let mouseDown = false;
-  let content: CanvasCell[][] = newMatrix(width, height, [" ", "", ""]);
-  let previewContent: CanvasCell[][] = newMatrix(width, height, ["", "", ""]);
+  let content: CanvasCell[][] = newMatrix(canvasW, canvasH, [" ", "", ""]);
+  let previewContent: CanvasCell[][] = newMatrix(canvasW, canvasH, ["", "", ""]);
 
   // Called every time the cursor position changes to either update the preview content or the actual one.
   $: (() => {
     if (mouseDown) {
       switch ($selectedShape[0]) {
         case "brush":
-          updateContent(currentPos.x, currentPos.y);
+          updateContent(x, y);
           break;
         case "eraser":
-          eraseCanvasMatrix(currentPos.x, currentPos.y);
+          eraseCanvasMatrix(x, y);
           break;
       }
     }
   })();
 
-  const updatePreview = (x: number, y: number, char?: string) => {
+  const updatePreview = (x: number, y: number, char: string = $selectedChar) => {
     switch ($selectedDrawMode) {
       case "symbols":
-        previewContent[y][x] = [
-          char ?? $selectedChar,
-          previewContent[y][x][1],
-          previewContent[y][x][2],
-        ];
+        previewContent[y][x] = [char, previewContent[y][x][1], previewContent[y][x][2]];
         break;
       case "style":
         previewContent[y][x] = [content[y][x][0], ...$selectedColor];
         break;
       case "both":
-        previewContent[y][x] = [char ?? $selectedChar, ...$selectedColor];
+        previewContent[y][x] = [char, ...$selectedColor];
         break;
     }
   };
@@ -87,21 +85,21 @@
 
   /** Updates cursor's information. */
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
-    const [x, y] = eventPosToLocal(event, width, height);
-    startPos = { x, y };
+    [x0, y0] = eventPosToLocal(event, canvasW, canvasH);
     mouseDown = true;
   };
 
   /** Updates cursor's current position. */
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
-    const [x, y] = eventPosToLocal(event, width, height);
+    const [x1, y1] = eventPosToLocal(event, canvasW, canvasH);
 
     // Only update if position has changed.
-    if (x !== currentPos.x) currentPos.x = x;
-    if (y !== currentPos.y) currentPos.y = y;
+    if (x1 !== x) x = x1;
+    if (y1 !== y) y = y1;
   };
 
-  const handleMouseUp: MouseEventHandler<HTMLDivElement> = (event) => {
+  /** Updates cursor's information. */
+  const handleMouseUp = () => {
     mouseDown = false;
 
     switch ($selectedShape[0]) {
@@ -109,13 +107,11 @@
         {
           let target: CanvasCell;
           if ($selectedDrawMode === "symbols") target = [$selectedChar, ...$selectedColor];
-          else if ($selectedDrawMode === "style")
-            target = [content[currentPos.y][currentPos.y][0], ...$selectedColor];
-          else if ($selectedDrawMode === "both")
-            target = [content[currentPos.y][currentPos.y][0], ...$selectedColor];
+          else if ($selectedDrawMode === "style") target = [content[y][x][0], ...$selectedColor];
+          else if ($selectedDrawMode === "both") target = [content[y][x][0], ...$selectedColor];
           else throw new Error(`Unknown draw mode "${$selectedDrawMode}"`);
 
-          drawFill(currentPos.x, currentPos.y, width, height, target, content, updateContent);
+          drawFill(x, y, canvasW, canvasH, target, content, updateContent);
         }
         break;
     }
@@ -124,14 +120,14 @@
   };
 
   const clearPreview = () => {
-    previewContent = newMatrix(width, height, ["", "", ""]);
+    previewContent = newMatrix(canvasW, canvasH, ["", "", ""]);
   };
 
   // Resets the canvas if event is triggered.
   onMount(() => {
     const handleReset = () => {
-      content = newMatrix(width, height, [" ", "", ""]);
-      previewContent = newMatrix(width, height, ["", "", ""]);
+      content = newMatrix(canvasW, canvasH, [" ", "", ""]);
+      previewContent = newMatrix(canvasW, canvasH, ["", "", ""]);
     };
 
     window.addEventListener("canvas-reset", handleReset);
@@ -141,12 +137,12 @@
 
 <ShapeLine
   {canvasEl}
-  canvasW={width}
-  canvasH={height}
-  x0={startPos.x}
-  y0={startPos.y}
-  x={currentPos.x}
-  y={currentPos.y}
+  {canvasW}
+  {canvasH}
+  {x0}
+  {y0}
+  {x}
+  {y}
   {mouseDown}
   {updatePreview}
   {clearPreview}
@@ -154,37 +150,30 @@
 />
 <ShapeRectangle
   {canvasEl}
-  canvasW={width}
-  canvasH={height}
-  x0={startPos.x}
-  y0={startPos.y}
-  x={currentPos.x}
-  y={currentPos.y}
+  {canvasW}
+  {canvasH}
+  {x0}
+  {y0}
+  {x}
+  {y}
   {mouseDown}
   {updatePreview}
   {clearPreview}
   {updateContent}
 />
-<ShapeText
-  {canvasEl}
-  canvasW={width}
-  canvasH={height}
-  {updatePreview}
-  {clearPreview}
-  {updateContent}
-/>
+<ShapeText {canvasEl} {canvasW} {canvasH} {updatePreview} {clearPreview} {updateContent} />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<Card id="canvas" title="Canvas" {width}>
+<Card id="canvas" title="Canvas" width={canvasW}>
   <div
     bind:this={canvasEl}
     on:mousedown={handleMouseDown}
     on:mouseup={handleMouseUp}
     on:mousemove={handleMouseMove}
   >
-    {#each { length: height } as _, y}
+    {#each { length: canvasH } as _, y}
       <div style:white-space="pre" style:pointer-events="none">
-        {#each { length: width } as _, x}
+        {#each { length: canvasW } as _, x}
           {#if previewContent[y][x][0]}
             <span style:color={previewContent[y][x][1]} style:background={previewContent[y][x][2]}>
               {previewContent[y][x][0]}

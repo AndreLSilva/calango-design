@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <Canvas width={80} height={30} />
+    <Canvas canvasW={80} canvasH={30} />
   </div>
 </div>
 
