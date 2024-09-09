@@ -8,12 +8,12 @@
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "../Card.svelte";
   import { onMount } from "svelte";
-  import { drawLine } from "$lib/editor/shapes/shape-line";
   import { drawRect } from "$lib/editor/shapes/shape-rectangle";
   import { drawFill } from "$lib/editor/shapes/shape-fill";
   import { eventPosToLocal, newMatrix } from "$lib/utils/number.utils";
   import type { CanvasCell } from "$lib/editor/editor.types";
   import ShapeText from "$lib/editor/shapes/shape-text.svelte";
+  import ShapeLine from "$lib/editor/shapes/fill/shape-line.svelte";
 
   export let width: number;
   export let height: number;
@@ -29,49 +29,59 @@
   $: (() => {
     if (mouseDown) {
       // Resets preview content array
-      previewContent = newMatrix(width, height, ["", "", ""]);
+      // previewContent = newMatrix(width, height, ["", "", ""]);
     }
 
     if (mouseDown) {
       switch ($selectedShape[0]) {
         case "brush":
-          updateCanvasMatrix(currentPos.x, currentPos.y, false);
+          updateContent(currentPos.x, currentPos.y);
           break;
         case "eraser":
           eraseCanvasMatrix(currentPos.x, currentPos.y);
           break;
-        case "line":
-          drawLine(startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
-            updateCanvasMatrix(x, y, true)
-          );
-          break;
         case "rect":
-          drawRect($selectedShape[1], startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
-            updateCanvasMatrix(x, y, true)
+          drawRect(
+            $selectedShape[1],
+            startPos.x,
+            startPos.y,
+            currentPos.x,
+            currentPos.y,
+            updatePreview
           );
           break;
       }
     }
   })();
 
-  $: updateCanvasMatrix = (x: number, y: number, preview: boolean, char?: string) => {
+  $: updatePreview = (x: number, y: number, char?: string) => {
     switch ($selectedDrawMode) {
       case "symbols":
-        if (preview)
-          previewContent[y][x] = [
-            char ?? $selectedChar,
-            previewContent[y][x][1],
-            previewContent[y][x][2],
-          ];
-        else content[y][x] = [char ?? $selectedChar, content[y][x][1], content[y][x][2]];
+        previewContent[y][x] = [
+          char ?? $selectedChar,
+          previewContent[y][x][1],
+          previewContent[y][x][2],
+        ];
         break;
       case "style":
-        if (preview) previewContent[y][x] = [content[y][x][0], ...$selectedColor];
-        else content[y][x] = [content[y][x][0], ...$selectedColor];
+        previewContent[y][x] = [content[y][x][0], ...$selectedColor];
         break;
       case "both":
-        if (preview) previewContent[y][x] = [char ?? $selectedChar, ...$selectedColor];
-        else content[y][x] = [char ?? $selectedChar, ...$selectedColor];
+        previewContent[y][x] = [char ?? $selectedChar, ...$selectedColor];
+        break;
+    }
+  };
+
+  $: updateContent = (x: number, y: number, char: string = $selectedChar) => {
+    switch ($selectedDrawMode) {
+      case "symbols":
+        content[y][x] = [char, content[y][x][1], content[y][x][2]];
+        break;
+      case "style":
+        content[y][x] = [content[y][x][0], ...$selectedColor];
+        break;
+      case "both":
+        content[y][x] = [char, ...$selectedColor];
         break;
     }
   };
@@ -110,15 +120,14 @@
     mouseDown = false;
 
     switch ($selectedShape[0]) {
-      // Commits the line to the content array.
-      case "line":
-        drawLine(startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
-          updateCanvasMatrix(x, y, false)
-        );
-        break;
       case "rect":
-        drawRect($selectedShape[1], startPos.x, startPos.y, currentPos.x, currentPos.y, (x, y) =>
-          updateCanvasMatrix(x, y, false)
+        drawRect(
+          $selectedShape[1],
+          startPos.x,
+          startPos.y,
+          currentPos.x,
+          currentPos.y,
+          updateContent
         );
         break;
       case "fill":
@@ -131,14 +140,16 @@
             target = [content[currentPos.y][currentPos.y][0], ...$selectedColor];
           else throw new Error(`Unknown draw mode "${$selectedDrawMode}"`);
 
-          drawFill(currentPos.x, currentPos.y, width, height, target, content, (x, y) =>
-            updateCanvasMatrix(x, y, false)
-          );
+          drawFill(currentPos.x, currentPos.y, width, height, target, content, updateContent);
         }
         break;
     }
 
     // TODO: Save change
+  };
+
+  const clearPreview = () => {
+    previewContent = newMatrix(width, height, ["", "", ""]);
   };
 
   // Resets the canvas if event is triggered.
@@ -153,13 +164,25 @@
   });
 </script>
 
+<ShapeLine
+  {canvasEl}
+  canvasW={width}
+  canvasH={height}
+  x0={startPos.x}
+  y0={startPos.y}
+  {mouseDown}
+  {updatePreview}
+  {clearPreview}
+  {updateContent}
+/>
+
 <ShapeText
   {canvasEl}
   canvasW={width}
   canvasH={height}
-  updatePreview={(x, y, char) => updateCanvasMatrix(x, y, true, char)}
-  clearPreview={() => (previewContent = newMatrix(width, height, ["", "", ""]))}
-  updateContent={(x, y, char) => updateCanvasMatrix(x, y, false, char)}
+  {updatePreview}
+  {clearPreview}
+  {updateContent}
 />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
