@@ -35,6 +35,8 @@
   /** Writes the line rectangle on the canvas.  */
   const handleMouseUp = (event: MouseEvent) => {
     const [x, y] = eventPosToLocal(event, canvasW, canvasH);
+
+    clearPreview();
     drawLine(x0, y0, x, y, updateContent);
   };
 
