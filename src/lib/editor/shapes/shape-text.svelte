@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { selectedShape } from "$lib/stores/editor-stores";
+  import { canvasH, canvasW, selectedShape } from "$lib/stores/editor-stores";
   import { eventPosToLocal } from "$lib/utils/number.utils";
   import { safeWindow } from "$lib/utils/window.utils";
   import { onDestroy } from "svelte";
 
   export let canvasEl: HTMLDivElement;
-  export let canvasW: number;
-  export let canvasH: number;
   export let updatePreview: (x: number, y: number, char: string) => void;
   export let clearPreview: () => void;
   export let updateContent: (x: number, y: number, char: string) => void;
@@ -51,7 +49,7 @@
 
   const handleClick = (event: MouseEvent) => {
     if (value) commit(); // If there is previous, not committed text, commits it.
-    [x0, y0] = eventPosToLocal(event, canvasW, canvasH); // Stores text position.
+    [x0, y0] = eventPosToLocal(event, $canvasW, $canvasH); // Stores text position.
     typing = true; // Indicates user is now typing.
   };
 

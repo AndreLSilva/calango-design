@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { selectedShape } from "$lib/stores/editor-stores";
+  import { canvasH, canvasW, selectedShape } from "$lib/stores/editor-stores";
   import { eventPosToLocal } from "$lib/utils/number.utils";
   import { onDestroy } from "svelte";
   import { drawLine } from "./shape-line";
 
   export let canvasEl: HTMLDivElement;
-  export let canvasW: number;
-  export let canvasH: number;
   export let x0: number;
   export let y0: number;
   export let x: number;
@@ -34,7 +32,7 @@
 
   /** Writes the line rectangle on the canvas.  */
   const handleMouseUp = (event: MouseEvent) => {
-    const [x, y] = eventPosToLocal(event, canvasW, canvasH);
+    const [x, y] = eventPosToLocal(event, $canvasW, $canvasH);
 
     clearPreview();
     drawLine(x0, y0, x, y, updateContent);

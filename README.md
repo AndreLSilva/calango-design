@@ -29,9 +29,8 @@ Developed by André Lima e Silva
   - [x] Export;
   - [x] Reset;
 - Settings:
-  - [ ] Settings;
-  - [ ] Adjust zoom;
-  - [ ] Resize canvas;
+  - [x] Adjust zoom;
+  - [x] Resize canvas;
 
 ### v1.0
 

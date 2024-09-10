@@ -6,6 +6,8 @@
   import ActionsMenu from "../components/editor/ActionsMenu.svelte";
   import ColorsPaletteMenu from "../components/editor/ColorPalette/ColorsPaletteMenu.svelte";
   import SymbolsMenu from "../components/editor/SymbolsMenu.svelte";
+  import { editorScreen, selectedShape } from "$lib/stores/editor-stores";
+  import EditorSettingsMenu from "../components/editor/EditorSettingsMenu.svelte";
 
   //                                           ┞  ┟
   //    ┡  ┢           ┦  ┧    ┩  ┪      ┬  ┭  ┮
@@ -41,18 +43,22 @@
   <!-- Content -->
   <div style:display="flex">
     <div>
-      <SymbolsMenu />
-      <ColorsPaletteMenu />
-      <div style:display="flex">
-        <div>
-          <DrawModeMenu />
-          <ActionsMenu />
+      {#if $editorScreen === "tools"}
+        <SymbolsMenu />
+        <ColorsPaletteMenu />
+        <div style:display="flex">
+          <div>
+            <DrawModeMenu />
+            <ActionsMenu />
+          </div>
+          <ShapesMenu />
         </div>
-        <ShapesMenu />
-      </div>
+      {:else if $editorScreen === "settings"}
+        <EditorSettingsMenu />
+      {/if}
     </div>
 
-    <Canvas canvasW={80} canvasH={30} />
+    <Canvas />
   </div>
 </div>
 

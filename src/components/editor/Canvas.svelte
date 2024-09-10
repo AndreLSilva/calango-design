@@ -4,6 +4,8 @@
     selectedColor,
     selectedShape,
     selectedDrawMode,
+    canvasW,
+    canvasH,
   } from "../../lib/stores/editor-stores";
   import type { MouseEventHandler } from "svelte/elements";
   import Card from "../Card.svelte";
@@ -15,17 +17,50 @@
   import ShapeLine from "$lib/editor/shapes/fill/shape-line.svelte";
   import ShapeRectangle from "$lib/editor/shapes/rectangle/shape-rectangle.svelte";
 
-  export let canvasW: number;
-  export let canvasH: number;
-
   let canvasEl: HTMLDivElement;
   let x0: number = 0;
   let y0: number = 0;
   let x: number = 0;
   let y: number = 0;
   let mouseDown = false;
-  let content: CanvasCell[][] = newMatrix(canvasW, canvasH, [" ", "", ""]);
-  let previewContent: CanvasCell[][] = newMatrix(canvasW, canvasH, ["", "", ""]);
+  let content: CanvasCell[][] = newMatrix($canvasW, $canvasH, [" ", "", ""]);
+  let previewContent: CanvasCell[][] = newMatrix($canvasW, $canvasH, ["", "", ""]);
+
+  // Adjusts canvas matrix when size is changed.
+  $: (() => {
+    const deltaH = $canvasH - content.length;
+    const deltaW = $canvasW - content[0].length;
+
+    // Adjusts size vertically
+    if (deltaH < 0) {
+      for (let i = 0, n = Math.abs(deltaH); i < n; i++) {
+        content.pop();
+        previewContent.pop();
+      }
+    } else if (deltaH > 0) {
+      for (let i = 0, n = deltaH; i < n; i++) {
+        content.push(Array($canvasW).fill([" ", "", ""]));
+        previewContent.push(Array($canvasW).fill(["", "", ""]));
+      }
+    }
+
+    // Adjusts size horizontally
+    if (deltaW < 0) {
+      for (let y = 0; y < $canvasH; y++) {
+        for (let i = 0, n = Math.abs(deltaW); i < n; i++) {
+          content[y].pop();
+          previewContent[y].pop();
+        }
+      }
+    } else if (deltaW > 0) {
+      for (let y = 0; y < $canvasH; y++) {
+        for (let i = 0; i < deltaW; i++) {
+          content[y].push([" ", "", ""]);
+          previewContent[y].push(["", "", ""]);
+        }
+      }
+    }
+  })();
 
   // Called every time the cursor position changes to either update the preview content or the actual one.
   $: (() => {
@@ -85,13 +120,13 @@
 
   /** Updates cursor's information. */
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
-    [x0, y0] = eventPosToLocal(event, canvasW, canvasH);
+    [x0, y0] = eventPosToLocal(event, $canvasW, $canvasH);
     mouseDown = true;
   };
 
   /** Updates cursor's current position. */
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
-    const [x1, y1] = eventPosToLocal(event, canvasW, canvasH);
+    const [x1, y1] = eventPosToLocal(event, $canvasW, $canvasH);
 
     // Only update if position has changed.
     if (x1 !== x) x = x1;
@@ -111,7 +146,7 @@
           else if ($selectedDrawMode === "both") target = [content[y][x][0], ...$selectedColor];
           else throw new Error(`Unknown draw mode "${$selectedDrawMode}"`);
 
-          drawFill(x, y, canvasW, canvasH, target, content, updateContent);
+          drawFill(x, y, $canvasW, $canvasH, target, content, updateContent);
         }
         break;
     }
@@ -120,14 +155,14 @@
   };
 
   const clearPreview = () => {
-    previewContent = newMatrix(canvasW, canvasH, ["", "", ""]);
+    previewContent = newMatrix($canvasW, $canvasH, ["", "", ""]);
   };
 
   // Resets the canvas if event is triggered.
   onMount(() => {
     const handleReset = () => {
-      content = newMatrix(canvasW, canvasH, [" ", "", ""]);
-      previewContent = newMatrix(canvasW, canvasH, ["", "", ""]);
+      content = newMatrix($canvasW, $canvasH, [" ", "", ""]);
+      previewContent = newMatrix($canvasW, $canvasH, ["", "", ""]);
     };
 
     window.addEventListener("canvas-reset", handleReset);
@@ -137,8 +172,6 @@
 
 <ShapeLine
   {canvasEl}
-  {canvasW}
-  {canvasH}
   {x0}
   {y0}
   {x}
@@ -150,8 +183,6 @@
 />
 <ShapeRectangle
   {canvasEl}
-  {canvasW}
-  {canvasH}
   {x0}
   {y0}
   {x}
@@ -161,19 +192,25 @@
   {clearPreview}
   {updateContent}
 />
-<ShapeText {canvasEl} {canvasW} {canvasH} {updatePreview} {clearPreview} {updateContent} />
+<ShapeText {canvasEl} {updatePreview} {clearPreview} {updateContent} />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<Card id="canvas" title="Canvas" width={canvasW}>
+<Card
+  id="canvas"
+  title="Canvas"
+  width={$canvasW}
+  height={$canvasH}
+  footer={`${$canvasW} x ${$canvasH}`}
+>
   <div
     bind:this={canvasEl}
     on:mousedown={handleMouseDown}
     on:mouseup={handleMouseUp}
     on:mousemove={handleMouseMove}
   >
-    {#each { length: canvasH } as _, y}
+    {#each { length: $canvasH } as _, y}
       <div style:white-space="pre" style:pointer-events="none">
-        {#each { length: canvasW } as _, x}
+        {#each { length: $canvasW } as _, x}
           {#if previewContent[y][x][0]}
             <span style:color={previewContent[y][x][1]} style:background={previewContent[y][x][2]}>
               {previewContent[y][x][0]}
