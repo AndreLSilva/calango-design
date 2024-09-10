@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Button from "../Button.svelte";
   import type { MenuItems } from "./ListMenu.types";
 
   export let items: MenuItems<string>;
@@ -18,31 +19,12 @@
 
     return label;
   };
-
-  $: getStyle = (key: string) => {
-    let result = "";
-    if (key === selectedKey) result += `background: white;`;
-    return result;
-  };
 </script>
 
 <div style="">
   {#each Object.keys(items) as key}
-    <button style={getStyle(key)} on:click={() => onSelectItem(key)}>{getLabel(key)}</button>
+    <Button selected={key === selectedKey} onClick={() => onSelectItem(key)}>
+      {getLabel(key)}
+    </Button>
   {/each}
 </div>
-
-<style>
-  button {
-    display: block;
-
-    width: 100%;
-    text-align: left;
-
-    color: cornflowerblue;
-
-    &:hover {
-      background: white;
-    }
-  }
-</style>
