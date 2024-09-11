@@ -6,7 +6,7 @@
   import ActionsMenu from "../components/editor/ActionsMenu.svelte";
   import ColorsPaletteMenu from "../components/editor/ColorPalette/ColorsPaletteMenu.svelte";
   import SymbolsMenu from "../components/editor/SymbolsMenu.svelte";
-  import { editorScreen, selectedShape } from "$lib/stores/editor-stores";
+  import { editorScreen } from "$lib/stores/editor-stores";
   import EditorSettingsMenu from "../components/editor/EditorSettingsMenu.svelte";
 
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
@@ -29,7 +29,11 @@
   <div style:padding-bottom="1ch">
     <h1 class="title">Calango Design<span class="version-label">{" "}v0.1.0</span></h1>
     <p class="version-label">
-      └─ By André Lima e Silva ─ <a href="https://github.com/AndreLSilva/calango-design/">Github</a>
+      └─ By André Lima e Silva ─ <a
+        href="https://github.com/AndreLSilva/calango-design/"
+        target="_blank">Github</a
+      >
+      ─ <a href="https://discord.gg/59YQ4pQd3q" target="_blank">Discord</a>
     </p>
   </div>
 
@@ -106,8 +110,6 @@
 
   .version-label {
     font-size: 0.75rem;
-    white-space: pre;
-
     opacity: 0.38;
   }
 </style>
