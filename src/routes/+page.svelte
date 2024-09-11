@@ -9,13 +9,6 @@
   import { editorScreen, selectedShape } from "$lib/stores/editor-stores";
   import EditorSettingsMenu from "../components/editor/EditorSettingsMenu.svelte";
 
-  //                                           ┞  ┟
-  //    ┡  ┢           ┦  ┧    ┩  ┪      ┬  ┭  ┮
-  //    ┱  ┲     ┴  ┵  ┶        ┹  ┺       ┽  ┾
-  // ╀  ╁     ╃  ╄  ╅  ╆  ╇  ╈  ╉  ╊     ╌  ╍  ╎  ╏
-  //
-  //    ╱  ╲  ╳  ╴  ╵  ╶  ╷  ╸  ╹  ╺  ╻  ╼  ╽  ╾  ╿
-
   const handleBeforeUnload: OnBeforeUnloadEventHandler = (event) => {
     event.preventDefault();
     return "";

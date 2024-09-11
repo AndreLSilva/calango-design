@@ -3,12 +3,18 @@
   import Card from "../Card.svelte";
 
   const symbols: string[] = [
-    "┌┐┍┑┎┒┏┓╒╕╓╖╔╗╭╮─┈┄━┉┅═",
-    "└┘┕┙┖┚┗┛╘╛╙╜╚╝╰╯│┊┆┃┋┇║",
+    // "◫▤▥▦▧▨▩◧◨◩◪◰◳◲◱▢▣",
+    "☺☻♥♦♣♠♂♀♪♫☼•●◘○◙▪■□▲►▼◄",
+    "↔↕↨↑↓→←▬∟⌂!?¿‼¶§$%&#()[]{}",
+    "0123456789≤<=≡>≥@\"'`^*+±-_~,.:;",
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "abcdefghijklmnopqrstuvwxyzü",
+    "αßΓπΣσµτΦΘΩδ∞φε∩⌠⌡÷≈°∙√ⁿ²",
+    "┌┐┍┑┎┒┏┓╒╕╓╖╔╗╭╮─┈┄━┉┅═░▒▓█▀▄▌▐/\\╱╲╳",
+    "└┘┕┙┖┚┗┛╘╛╙╜╚╝╰╯│┊┆┃┋┇║╴╵╶╷╸╹╺╻╼╽╾╿",
     "├┬┤┝┯┥┠┰┨┣┳┫╞╤╡╟╥╢╠╦╣",
     " ┼  ┿  ╂  ╋  ╪  ╫  ╬ ",
     " ┴  ┷  ┸  ┻  ╧  ╨  ╩ ",
-    "░▒▓█▀▄▌▐□■x○●",
   ];
 
   $: getStyle = (char: string) => {
@@ -24,7 +30,7 @@
   };
 </script>
 
-<Card title="Symbols" width={36}>
+<Card title="Symbols" width={36} height={symbols.length}>
   {#each symbols as line}
     <div>
       {#each line as char}

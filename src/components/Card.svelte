@@ -42,7 +42,7 @@
 
   <!-- Content -->
   <div style:height={0} style:pointer-events="none">
-    {#each { length: height ?? 0 } as _, i}
+    {#each { length: Math.floor(height ?? 0) } as _}
       <pre class="line">
         <span>│</span>
           <div style:width="100%" />
