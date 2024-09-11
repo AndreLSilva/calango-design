@@ -195,14 +195,9 @@
 <ShapeText {canvasEl} {updatePreview} {clearPreview} {updateContent} />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<Card
-  id="canvas"
-  title="Canvas"
-  width={$canvasW}
-  height={$canvasH}
-  footer={`${$canvasW} x ${$canvasH}`}
->
+<Card title="Canvas" width={$canvasW} height={$canvasH} footer={`${$canvasW} x ${$canvasH}`}>
   <div
+    id="canvas"
     bind:this={canvasEl}
     on:mousedown={handleMouseDown}
     on:mouseup={handleMouseUp}

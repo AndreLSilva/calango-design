@@ -10,12 +10,16 @@
   };
 
   const handleExport = () => {
-    const content = sanitizeCanvas(document.getElementById("canvas") as HTMLDivElement);
+    const canvasEl = document.getElementById("canvas");
+    if (!canvasEl) throw new Error("Missing canvas element");
+
+    const content = sanitizeCanvas(canvasEl);
     downloadFile("Canvas", content);
   };
 
   const handleReset = () => {
-    window.dispatchEvent(new CustomEvent("canvas-reset", { bubbles: true }));
+    const resetEvent = new CustomEvent("canvas-reset", { bubbles: true });
+    window.dispatchEvent(resetEvent);
   };
 </script>
 
