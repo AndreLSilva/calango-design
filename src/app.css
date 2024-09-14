@@ -1,0 +1,73 @@
+html {
+  height: 100%;
+
+  font-family: monospace;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+
+  height: 100%;
+
+  color: var(--text);
+  background: var(--bg);
+
+  & > div {
+    display: contents;
+    height: 100%;
+  }
+
+  &.theme-default {
+    --bg: #000000;
+    --surface: #121212;
+
+    --text: #e4e4e4;
+    --text-medium: #808080;
+    --divider: #ffffff;
+
+    --primary: #5f87ff;
+    --primary-on: #ffffff;
+
+    --secondary: #d78700;
+    --secondary-on: #ffffff;
+  }
+
+  &.theme-colorful {
+    --bg: #201127;
+    --surface: #1b1e34;
+
+    --text: #94c5ac;
+    --text-medium: #6aaf9d;
+    --divider: #ffeb99;
+
+    --primary: #ec9a6d;
+    --primary-on: #fdf7dc;
+
+    --secondary: #d9626b;
+    --secondary-on: #fdf7dc;
+  }
+}
+
+pre,
+p {
+  margin: 0;
+}
+
+button {
+  appearance: none;
+
+  border: none;
+  padding: 0;
+
+  font-family: monospace;
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  background: none;
+}
+
+a {
+  color: inherit;
+}

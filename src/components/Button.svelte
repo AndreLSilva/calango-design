@@ -17,15 +17,15 @@
     text-align: left;
     white-space: pre;
 
-    color: cornflowerblue;
+    color: var(--primary);
 
     &:hover {
-      background: white;
+      background: var(--primary-on);
     }
-  }
 
-  .selected {
-    color: cornflowerblue;
-    background: white;
+    &.selected {
+      color: var(--primary);
+      background: var(--primary-on);
+    }
   }
 </style>

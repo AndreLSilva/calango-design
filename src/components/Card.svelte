@@ -41,11 +41,11 @@
   <span bind:this={headerElement} aria-hidden="true">{cardHeader}</span>
 
   <!-- Content -->
-  <div style:height={0} style:pointer-events="none">
+  <div>
     {#each { length: Math.floor(height ?? 0) } as _}
       <pre class="line">
         <span>│</span>
-          <div style:width="100%" />
+        <div />
         <span>│</span>
       </pre>
     {/each}
@@ -63,6 +63,21 @@
   .card {
     width: fit-content;
     user-select: none;
+
+    & > span:first-child,
+    & > span:last-child {
+      color: var(--divider);
+    }
+
+    & > div:first-of-type {
+      height: 0;
+      pointer-events: none;
+      color: var(--divider);
+
+      & > pre > div {
+        width: 100%;
+      }
+    }
   }
 
   .line {

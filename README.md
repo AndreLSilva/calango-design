@@ -1,4 +1,4 @@
-# Calango Design `v0.1.0`
+# Calango Design `v0.2.0`
 
 Calango Design is an open source ASCII art editor that runs in the browser. It is still in early development and will receive constant updates.
 

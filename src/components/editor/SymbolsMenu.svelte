@@ -16,18 +16,6 @@
     " ┼  ┿  ╂  ╋  ╪  ╫  ╬ ",
     " ┴  ┷  ┸  ┻  ╧  ╨  ╩ ",
   ];
-
-  $: getStyle = (char: string) => {
-    let result = "";
-
-    if (char === $selectedChar) result += `background: white;`;
-
-    return result;
-  };
-
-  const handleSelectChar = (char: string) => {
-    selectedChar.set(char);
-  };
 </script>
 
 <Card title="Symbols" width={36} height={symbols.length}>
@@ -35,9 +23,13 @@
     <div>
       {#each line as char}
         {#if char === " "}
-          <span class="white-space">{"."}</span>
+          <span style:white-space="pre">{" "}</span>
         {:else}
-          <button style={getStyle(char)} class="char" on:click={() => handleSelectChar(char)}>
+          <button
+            class="char"
+            style:background={char === $selectedChar ? "var(--secondary-on)" : ""}
+            on:click={() => selectedChar.set(char)}
+          >
             {char}
           </button>
         {/if}
@@ -48,10 +40,10 @@
 
 <style>
   .char {
-    color: darkgoldenrod;
+    color: var(--secondary);
 
     &:hover {
-      background: white;
+      background: var(--secondary-on);
     }
   }
 </style>

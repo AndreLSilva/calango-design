@@ -6,15 +6,6 @@
 
   $: isFore = color === $selectedColor[0];
   $: isBack = color === $selectedColor[1];
-  $: style = (() => {
-    let result = "";
-
-    result += `background: ${color};`;
-    if (isLightColor(color)) result += "color: black;";
-    else result += "color: white;";
-
-    return result;
-  })();
 
   const selectColor = (foreground: boolean) => {
     if (foreground) {
@@ -29,7 +20,8 @@
 
 <button
   class="color"
-  {style}
+  style:color={isLightColor(color) ? "black" : "white"}
+  style:background={color}
   on:click={() => selectColor(true)}
   on:contextmenu={() => selectColor(false)}
 >
