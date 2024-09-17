@@ -36,36 +36,39 @@ Developed by André Lima e Silva
 
 ### v0.2
 
-- [x] Actions:
+- [ ] Actions:
   - [x] Save;
   - [x] Load;
-- [ ] Settings;
-  - [ ] Rename file;
-
-### v0.3
-
-- [ ] Actions:
+  - [ ] Export with styles;
+  - [ ] Import;
+  - [ ] Save with styles;
+  - [ ] Load with styles;
   - [ ] Undo;
 - [ ] Shapes:
   - [ ] Shortcuts;
-- Actions:
-  - [ ] Export with styles;
-  - [ ] Import;
+  - [ ] Circle;
+- [ ] Settings;
+  - [ ] Rename file;
 
-### v0.4
+### v1.0
 
 - [ ] Tools:
+  - [ ] Preview brush;
+  - [ ] Preview eraser;
   - [ ] Select:
     - [ ] Move;
     - [ ] Copy + Paste;
-- [ ] Shapes:
-  - [ ] Circle;
 
-### v1.0
+### v1.1
 
 - [ ] Settings:
   - [ ] Color theme;
   - [ ] Change font;
+
+### v1.2
+
+- [ ] Shape:
+  - [ ] Smart lines;
 
 ### Somewhat in the future
 
