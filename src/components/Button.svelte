@@ -2,20 +2,29 @@
   import type { MouseEventHandler } from "svelte/elements";
 
   export let selected: boolean = false;
-  export let onClick: MouseEventHandler<HTMLButtonElement>;
+  export let href: string | undefined = undefined;
+  export let onClick: MouseEventHandler<HTMLButtonElement> | undefined = undefined;
 </script>
 
-<button class:selected on:click={onClick}>
-  <slot />
-</button>
+{#if href}
+  <a class:selected {href}>
+    <slot />
+  </a>
+{:else}
+  <button class:selected on:click={onClick}>
+    <slot />
+  </button>
+{/if}
 
 <style>
-  button {
+  button,
+  a {
     display: block;
 
     width: 100%;
     text-align: left;
     white-space: pre;
+    text-decoration: none;
 
     color: var(--primary);
 
