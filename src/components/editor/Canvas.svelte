@@ -1,21 +1,26 @@
 <script lang="ts">
-  import {
-    selectedChar,
-    selectedColor,
-    selectedShape,
-    selectedDrawMode,
-    canvasW,
-    canvasH,
-  } from "../../lib/stores/editor-stores";
-  import type { MouseEventHandler } from "svelte/elements";
-  import Card from "../Card.svelte";
-  import { onMount } from "svelte";
-  import { drawFill } from "$lib/editor/shapes/shape-fill";
-  import { eventPosToLocal, newMatrix } from "$lib/utils/number.utils";
   import type { CanvasCell } from "$lib/editor/editor.types";
-  import ShapeText from "$lib/editor/shapes/shape-text.svelte";
   import ShapeLine from "$lib/editor/shapes/fill/shape-line.svelte";
   import ShapeRectangle from "$lib/editor/shapes/rectangle/shape-rectangle.svelte";
+  import { drawFill } from "$lib/editor/shapes/shape-fill";
+  import ShapeText from "$lib/editor/shapes/shape-text.svelte";
+  import { decodeCanvas } from "$lib/utils/canvas.utils";
+  import { eventPosToLocal, newMatrix } from "$lib/utils/number.utils";
+  import { onMount } from "svelte";
+  import type { MouseEventHandler } from "svelte/elements";
+  import {
+    canvasH,
+    canvasW,
+    designData,
+    selectedChar,
+    selectedColor,
+    selectedDrawMode,
+    selectedShape,
+  } from "../../lib/stores/editor-stores";
+  import Card from "../Card.svelte";
+
+  // designData is loaded on the page component. The canvas should only be rendered if it is defined.
+  if (!$designData) throw new Error("Design data not loaded");
 
   let canvasEl: HTMLDivElement;
   let x0: number = 0;
@@ -23,8 +28,12 @@
   let x: number = 0;
   let y: number = 0;
   let mouseDown = false;
-  let content: CanvasCell[][] = newMatrix($canvasW, $canvasH, [" ", "", ""]);
-  let previewContent: CanvasCell[][] = newMatrix($canvasW, $canvasH, ["", "", ""]);
+  let content: CanvasCell[][] = decodeCanvas($designData.content);
+  let previewContent: CanvasCell[][];
+
+  $canvasW = content[0].length;
+  $canvasH = content.length;
+  previewContent = newMatrix($canvasW, $canvasH, ["", "", ""]);
 
   // Adjusts canvas matrix when size is changed.
   $: (() => {
@@ -195,7 +204,12 @@
 <ShapeText {canvasEl} {updatePreview} {clearPreview} {updateContent} />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<Card title="Canvas" width={$canvasW} height={$canvasH} footer={`${$canvasW} x ${$canvasH}`}>
+<Card
+  title={$designData.name}
+  width={$canvasW}
+  height={$canvasH}
+  footer={`${$canvasW} x ${$canvasH}`}
+>
   <div
     id="canvas"
     bind:this={canvasEl}

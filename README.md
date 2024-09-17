@@ -36,9 +36,9 @@ Developed by André Lima e Silva
 
 ### v0.2
 
-- [ ] Actions:
-  - [ ] Save;
-  - [ ] Load;
+- [x] Actions:
+  - [x] Save;
+  - [x] Load;
 - [ ] Settings;
   - [ ] Rename file;
 
