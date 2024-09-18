@@ -46,6 +46,7 @@ Developed by André Lima e Silva
   - [ ] Undo;
 - [ ] Shapes:
   - [ ] Shortcuts;
+  - [ ] Picker;
   - [ ] Circle;
 - [ ] Settings;
   - [ ] Rename file;
@@ -62,6 +63,7 @@ Developed by André Lima e Silva
 ### v1.1
 
 - [ ] Settings:
+  - [ ] Auto save draft;
   - [ ] Color theme;
   - [ ] Change font;
 
