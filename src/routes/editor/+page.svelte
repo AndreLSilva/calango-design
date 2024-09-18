@@ -66,7 +66,11 @@
 
     /* Tools */
     & > div:first-child {
+      flex-shrink: 0;
+
       padding: 1ch;
+      overflow: auto;
+
       background: var(--surface);
     }
 

@@ -36,6 +36,8 @@
 
     & > h1 {
       margin: 0;
+      font-size: 1.25rem;
+      font-weight: 400;
 
       & > span {
         font-size: 0.75rem;
