@@ -39,7 +39,7 @@ Developed by André Lima e Silva
 - [ ] Actions:
   - [x] Save;
   - [x] Load;
-  - [ ] Export with styles;
+  - [x] Export with styles;
   - [ ] Import;
   - [ ] Save with styles;
   - [ ] Load with styles;
