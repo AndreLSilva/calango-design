@@ -45,7 +45,7 @@ Developed by André Lima e Silva
   - [ ] Import;
   - [ ] Undo;
 - [ ] Shapes:
-  - [ ] Shortcuts;
+  - [x] Shortcuts;
   - [ ] Picker;
   - [ ] Circle;
 - [ ] Settings;

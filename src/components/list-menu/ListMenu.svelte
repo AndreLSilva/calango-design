@@ -11,7 +11,6 @@
     const data = items[key];
     let label = data.label;
 
-    if (data.shortcut) label += ` (${data.shortcut})`;
     if (selectedKey && data.variants) {
       const variant = key === selectedKey ? selectedVariant : 0;
       label += ` ${data.variants[variant]}`;
@@ -23,7 +22,11 @@
 
 <div style="">
   {#each Object.keys(items) as key}
-    <Button selected={key === selectedKey} onClick={() => onSelectItem(key)}>
+    <Button
+      selected={key === selectedKey}
+      title={items[key].shortcut?.toUpperCase()}
+      onClick={() => onSelectItem(key)}
+    >
       {getLabel(key)}
     </Button>
   {/each}

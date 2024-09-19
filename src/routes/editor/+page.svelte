@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { readDesign } from "$lib/api/designs/read";
+  import { ShortcutsController } from "$lib/ShortcutsController";
   import { designData, editorScreen } from "$lib/stores/editor-stores";
   import { onMount } from "svelte";
   import ActionsMenu from "../../components/editor/ActionsMenu.svelte";
@@ -17,6 +18,12 @@
     if (!designId) throw new Error("Missing design id");
 
     $designData = await readDesign(designId);
+  });
+
+  // Inits the Shortcuts Controller.
+  onMount(() => {
+    ShortcutsController.init();
+    return () => ShortcutsController.destroy();
   });
 
   // Listens to the before unload event to prevent the user accidentally close the editor.

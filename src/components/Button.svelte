@@ -3,15 +3,16 @@
 
   export let selected: boolean = false;
   export let href: string | undefined = undefined;
+  export let title: string | undefined = undefined;
   export let onClick: MouseEventHandler<HTMLButtonElement> | undefined = undefined;
 </script>
 
 {#if href}
-  <a class:selected {href}>
+  <a class:selected {href} {title}>
     <slot />
   </a>
 {:else}
-  <button class:selected on:click={onClick}>
+  <button class:selected {title} on:click={onClick}>
     <slot />
   </button>
 {/if}

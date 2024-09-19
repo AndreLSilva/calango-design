@@ -4,27 +4,27 @@ import type { ShapeType } from "./shapes.types";
 export const shapes: MenuItems<ShapeType> = {
   brush: {
     label: "Brush",
-    // shortcut: "b",
+    shortcut: "b",
   },
   eraser: {
     label: "Eraser",
-    // shortcut: "e",
+    shortcut: "e",
   },
   line: {
     label: "Line",
-    // shortcut: "l",
+    shortcut: "l",
   },
   rect: {
     label: "Rectangle",
-    // shortcut: "u",
+    shortcut: "u",
     variants: ["■", "□"],
   },
   fill: {
     label: "Fill",
-    // shortcut: "g",
+    shortcut: "g",
   },
   text: {
     label: "Text",
-    // shortcut: "t"
+    shortcut: "t",
   },
 };

@@ -1,10 +1,12 @@
 <script lang="ts">
-  import { selectedShape } from "$lib/stores/editor-stores";
   import { shapes } from "$lib/editor/shapes/shapes";
-  import ListMenu from "../list-menu/ListMenu.svelte";
-  import Card from "../Card.svelte";
   import type { ShapeType } from "$lib/editor/shapes/shapes.types";
+  import { ShortcutsController } from "$lib/ShortcutsController";
+  import { selectedShape } from "$lib/stores/editor-stores";
   import { warp } from "$lib/utils/number.utils";
+  import { onMount } from "svelte";
+  import Card from "../Card.svelte";
+  import ListMenu from "../list-menu/ListMenu.svelte";
 
   const handleSelectShape = (shape: string) => {
     const data = shapes[shape as ShapeType];
@@ -16,6 +18,19 @@
 
     selectedShape.set([shape as ShapeType, variant]);
   };
+
+  const handleShortcut = (sequence: string) => {
+    Object.entries(shapes).forEach(([shape, data]) => {
+      if (data.shortcut !== sequence) return;
+      handleSelectShape(shape);
+    });
+  };
+
+  // Add shortcut listeners
+  onMount(() => {
+    ShortcutsController.addListener(handleShortcut);
+    return () => ShortcutsController.removeListener(handleShortcut);
+  });
 </script>
 
 <Card title="Shapes" width={17}>
