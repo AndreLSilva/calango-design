@@ -75,3 +75,14 @@ export function eventPosToLocal(event: MouseEvent, w: number, h: number) {
 
   return [x, y];
 }
+
+/**
+ * Safely parses a value to a number avoiding returning NaN or Infinite values.
+ * @param value The value containing the number to be parsed.
+ * @returns A valid finite number.
+ */
+export function parseNumber(value: string | number | null | undefined) {
+  const parsed = Number(value);
+  if (Number.isNaN(parsed) || !Number.isFinite(value)) return undefined;
+  return parsed;
+}

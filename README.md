@@ -40,9 +40,9 @@ Developed by André Lima e Silva
   - [x] Save;
   - [x] Load;
   - [x] Export with styles;
+  - [x] Save with styles;
+  - [x] Load with styles;
   - [ ] Import;
-  - [ ] Save with styles;
-  - [ ] Load with styles;
   - [ ] Undo;
 - [ ] Shapes:
   - [ ] Shortcuts;
